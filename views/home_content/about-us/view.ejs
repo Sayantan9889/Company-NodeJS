@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-              <textarea class="form-control" name="content" rows="6" disabled><%= data.aboutUs.content %></textarea>
+              <textarea id="aboutUs-content-view" class="form-control" name="content" rows="6" disabled><%= data.aboutUs.content %></textarea>
             </div>
           </form>
 
@@ -74,6 +74,27 @@
 
   </div>
   <!-- ./wrapper -->
+
+  <!-- Configure for TinyMice Editor -->
+  <script>
+    tinymce.init({
+      selector: 'textarea#aboutUs-content-view',
+      menubar: false,
+      plugins: false,
+      toolbar: '',
+      tinycomments_mode: false,
+      ai_request: false,
+      branding: false, // Hides the "Built with TinyMCE" text
+      readonly: true,
+      init_instance_callback: function(editor) {
+        editor.getBody().classList.add('disabled'); // Add a class to the editor body
+        
+        // Apply custom styles
+        editor.getBody().style.cursor = 'default';
+        editor.getBody().style.backgroundColor = '#E8E8E8';
+      }
+    });
+  </script>
 </body>
 
 </html>

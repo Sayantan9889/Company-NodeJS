@@ -57,7 +57,7 @@ class aboutUsHomeController {
                 console.log("Validation failed: ", error);
             } else {
                 await aboutUsHomeModel.findByIdAndUpdate(id, data);
-                console.log("updated banner: ", data);
+                // console.log("updated banner: ", data);
                 res.redirect('/home/about-us');
             }
         } catch (error) {

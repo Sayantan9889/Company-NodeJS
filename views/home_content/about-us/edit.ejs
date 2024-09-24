@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-              <textarea class="form-control" name="content" rows="6"><%= data.aboutUs.content %></textarea>
+              <textarea id="aboutUs-content-edit" class="form-control" name="content" rows="6"><%= data.aboutUs.content %></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>
@@ -77,6 +77,27 @@
 
   </div>
   <!-- ./wrapper -->
+   
+  <!-- Configure for TinyMice Editor -->
+  <script>
+    tinymce.init({
+      selector: 'textarea#aboutUs-content-edit',
+      menubar: false,
+      plugins: [
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+      ],
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Sayantan',
+      mergetags_list: [
+        { value: 'First.Name', title: 'Sayantan' },
+        { value: 'Email', title: 'sayantan.company@yopmail.com' },
+      ],
+      ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+      branding: false, // Hides the "Built with TinyMCE" text
+    });
+  </script>
 </body>
 
 </html>

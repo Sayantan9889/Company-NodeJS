@@ -131,7 +131,7 @@ class bannerController {
                 });
             } else {
                 await bannerModel.findByIdAndUpdate(id, data);
-                console.log("updated banner: ", data); 
+                // console.log("updated banner: ", data); 
                 return res.status(200).json({
                     message: 'Banner updated successfully.',
                     data: data

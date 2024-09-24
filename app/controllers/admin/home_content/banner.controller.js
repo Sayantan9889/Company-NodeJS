@@ -120,7 +120,7 @@ class bannerController {
                 console.log("Validation failed: ", error);
             } else {
                 await bannerModel.findByIdAndUpdate(id, data);
-                console.log("updated banner: ", data);
+                // console.log("updated banner: ", data);
                 res.redirect('/home/banner');
             }
         } catch (error) {

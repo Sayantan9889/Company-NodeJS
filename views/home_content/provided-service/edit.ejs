@@ -24,7 +24,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">About Us</h1>
+              <h1 class="m-0">Services</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -43,22 +43,22 @@
         <div class="container-fluid">
 
           <form action="" method="post" enctype="application/x-www-form-urlencoded">
-            <h3 style="text-align: center; text-decoration: underline;">Update About Us</h3>
+            <h3 style="text-align: center; text-decoration: underline;">Update Services</h3>
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">Heading</label>
-              <input type="text" class="form-control" name="heading" value="<%= data.aboutUs.heading %>">
+              <input type="text" class="form-control" name="heading" value="<%= data.services.heading %>">
             </div>
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">Title</label>
-              <input type="text" class="form-control" name="title" value="<%= data.aboutUs.title %>">
+              <input type="text" class="form-control" name="title" value="<%= data.services.title %>">
             </div>
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">Sub-title</label>
-              <input type="text" class="form-control" name="sub_title" value="<%= data.aboutUs.sub_title %>">
+              <input type="text" class="form-control" name="sub_title" value="<%= data.services.sub_title %>">
             </div>
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-              <textarea class="form-control" name="content" rows="6"><%= data.aboutUs.content %></textarea>
+              <textarea class="form-control" name="content" rows="6"><%= data.services.content %></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>

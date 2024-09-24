@@ -2,6 +2,7 @@ const express = require('express');
 const bannerController = require('../../controllers/admin/home_content/banner.controller');
 const upload = require('../../helper/upload-image.helper');
 const aboutUsController = require('../../controllers/admin/home_content/about-us.controller');
+const serviceController = require('../../controllers/admin/home_content/service.controller');
 
 const router = express.Router();
 
@@ -23,7 +24,8 @@ router.get('/home/about-us/update/:id', aboutUsController.aboutUsUpdate);
 router.post('/home/about-us/edit/:id', aboutUsController.editAboutUs);
 
 
-/* +=========== banner ===========+ */
+/* +=========== Services ===========+ */
+router.get('/home/services', serviceController.serviceList);
 
 
 /* +=========== banner ===========+ */
