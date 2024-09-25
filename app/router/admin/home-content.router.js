@@ -26,6 +26,9 @@ router.post('/home/about-us/edit/:id', aboutUsController.editAboutUs);
 
 /* +=========== Services ===========+ */
 router.get('/home/services', serviceController.serviceList);
+router.get('/home/services/add', serviceController.serviceAdd);
+
+router.post('/home/service/create', upload.single('image'), serviceController.createService)
 
 
 /* +=========== banner ===========+ */

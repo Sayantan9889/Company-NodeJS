@@ -8,7 +8,8 @@ serviceValidator = joi.object({
     hover_color: joi.string().required(),
     heading: joi.string().required(),
     content: joi.string().required(),
-    link: joi.string().required()
+    isActive: joi.boolean(),
+    updated_at: joi.date()
 })
 
 const serviceSchema = new Schema({
@@ -16,7 +17,9 @@ const serviceSchema = new Schema({
     hover_color: { type: 'string' },
     heading: { type: 'string' },
     content: { type: 'string' },
-    link: { type: 'string' }
+    isActive: { type: Boolean, default: true, index: true },
+    created_at: { type: Date, default: Date.now, index: true },
+    updated_at: { type: Date, default: Date.now, index: true }
 });
 
 const serviceModel = mongoose.model('Service', serviceSchema);

@@ -42,26 +42,26 @@
       <section class="content">
         <div class="container-fluid">
 
-          <form action="" method="post" enctype="application/x-www-form-urlencoded">
+          <form action="/home/service/create" method="post" enctype="multipart/form-data">
             <h3 style="text-align: center; text-decoration: underline;">Add New Services</h3>
             <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Image</label>
+              <input type="file" class="form-control" name="image">
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Hover Colour</label>
+              <input type="text" class="form-control" name="hover_color" placeholder="Enter a colour of service card on hover">
+            </div>
+            <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label">Heading</label>
-              <input type="text" class="form-control" name="heading" value="<%= data.aboutUs.heading %>">
-            </div>
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Title</label>
-              <input type="text" class="form-control" name="title" value="<%= data.aboutUs.title %>">
-            </div>
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Sub-title</label>
-              <input type="text" class="form-control" name="sub_title" value="<%= data.aboutUs.sub_title %>">
+              <input type="text" class="form-control" name="heading" placeholder="Enter a title of service">
             </div>
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-              <textarea class="form-control" name="content" rows="6"><%= data.aboutUs.content %></textarea>
+              <input type="text" class="form-control" name="content" placeholder="Enter a breif description of the service">
             </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Add Service</button>
 
           </form>
 

@@ -41,7 +41,57 @@
       <section class="content">
         <div class="container-fluid">
 
-            <h3 style="text-align: center; text-decoration: underline;">Services list will be here</h3>
+          <a href="/home/services/add" class="btn btn-info"> Add Service</a>
+          <!-- serviceList -->
+          <h3 style="text-align: center; text-decoration: underline;">Services list</h3>
+          <table class="table mt-2">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Image</th>
+                <th scope="col">Colour</th>
+                <th scope="col">Heading</th>
+                <th scope="col">Content</th>
+                <th scope="col">Status</th>
+                <th colspan="2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <% data.serviceList.forEach((service, index)=> {%>
+              <tr>
+                <th scope="row">
+                  <%= index+1 %>
+                </th>
+                <td style="padding-bottom: 0.36rem;">
+                  <img style="height: 50px; width: 50px; border-radius: 50%;" src="<%= service.image %>" alt="">
+                </td>
+                <td style="padding-bottom: 0.36rem;">
+                  <%= service.hover_color %>
+                </td>
+                <td style="padding-bottom: 0.36rem;">
+                  <%= service.heading %>
+                </td>
+                <td style=" padding-bottom: 0.36rem;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        line-clamp: 2;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;">
+                  <%= service.content %>
+                </td>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/services/active-deactive/<%=service._id%>" class="btn btn-warning">
+                    <%= service.isActive ? 'Deactive' : 'Active' %>
+                  </a></td>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/services/update/<%=service._id%>" class="btn btn-success">Edit</a>
+                </td>
+                <td style="padding-bottom: 0.36rem;"><a class="btn btn-danger" onclick="deleteBanner('<%= service._id %>')"> Delete</a></td>
+              </tr>
+              <% }) %>
+
+            </tbody>
+          </table>
 
         </div><!-- /.container-fluid -->
       </section>
