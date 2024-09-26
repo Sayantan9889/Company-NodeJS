@@ -102,6 +102,12 @@ class bannerController {
             let imagePath = "";
 
             const existingBanner = await bannerModel.findById(id);
+            if(!existingBanner) {
+                return res.status(301).json({
+                    message: 'No banner found',
+                    data: {}
+                });
+            }
 
             if (file) {
                 imagePath = `${basePath}/${file.filename}`;

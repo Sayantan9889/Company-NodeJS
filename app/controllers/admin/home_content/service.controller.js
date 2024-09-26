@@ -56,7 +56,7 @@ class servicesController {
 
 
 
-    
+
 
     async createService(req, res) {
         try {
@@ -99,34 +99,37 @@ class servicesController {
 
             const existingService = await serviceModel.findById(id);
 
-            if (file) {
-                imagePath = `${basePath}/${file.filename}`;
+            if (existingService) {
+                if (file) {
+                    imagePath = `${basePath}/${file.filename}`;
 
-                const existingImage = existingService.image.split('/').pop(); // Get the image file name;
-                if (existingImage && existingImage !== 'no-image.png') {
-                    fs.unlink(path.join(__dirname, '..', '..', '..', '..', 'uploads', existingImage), (err) => {
-                        if (err) console.error(`Error deleting image: ${err}`);
-                        else console.log('Old images deleted successfully');
-                    });
+                    const existingImage = existingService.image.split('/').pop(); // Get the image file name;
+                    if (existingImage && existingImage !== 'no-image.png') {
+                        fs.unlink(path.join(__dirname, '..', '..', '..', '..', 'uploads', existingImage), (err) => {
+                            if (err) console.error(`Error deleting image: ${err}`);
+                            else console.log('Old images deleted successfully');
+                        });
+                    }
+                } else imagePath = existingService?.image;
+
+                const data = {
+                    image: imagePath,
+                    hover_color: req.body.hover_color || existingService.hover_color,
+                    heading: req.body.heading || existingService.heading,
+                    content: req.body.content || existingService.content,
+                    updated_at: Date.now()
                 }
-            } else imagePath = existingService?.image;
 
-            const data = {
-                // hover_color: req.body.hover_color || existingService.hover_color,
-                // heading: req.body.heading || existingService.heading,
-                // content: req.body.content || existingService.content,
-                ...req.body,
-                image: imagePath,
-                updated_at: Date.now()
-            }
-
-            const { error } = serviceValidator.validate(data);
-            if (error) {
-                console.log("Validation failed: ", error);
+                const { error } = serviceValidator.validate(data);
+                if (error) {
+                    console.log("Validation failed: ", error);
+                } else {
+                    await serviceModel.findByIdAndUpdate(id, data);
+                    // console.log("updated service: ", data);
+                    res.redirect('/home/service');
+                }
             } else {
-                await serviceModel.findByIdAndUpdate(id, data);
-                // console.log("updated service: ", data);
-                res.redirect('/home/service');
+                res.redirect(`/home/service/update/${id}`);
             }
         } catch (error) {
             console.error("error while editing service: ", error);

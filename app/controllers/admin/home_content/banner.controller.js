@@ -98,33 +98,36 @@ class bannerController {
             let imagePath = "";
 
             const existingBanner = await bannerModel.findById(id);
+            if (existingBanner) {
+                if (file) {
+                    imagePath = `${basePath}/${file.filename}`;
 
-            if (file) {
-                imagePath = `${basePath}/${file.filename}`;
+                    const existingImage = existingBanner.image.split('/').pop(); // Get the image file name;
+                    if (existingImage && existingImage !== 'no-image.png') {
+                        fs.unlink(path.join(__dirname, '..', '..', '..', '..', 'uploads', existingImage), (err) => {
+                            if (err) console.error(`Error deleting image: ${err}`);
+                            else console.log('Old images deleted successfully');
+                        });
+                    }
+                } else imagePath = existingBanner?.image;
 
-                const existingImage = existingBanner.image.split('/').pop(); // Get the image file name;
-                if (existingImage && existingImage !== 'no-image.png') {
-                    fs.unlink(path.join(__dirname, '..', '..', '..', '..', 'uploads', existingImage), (err) => {
-                        if (err) console.error(`Error deleting image: ${err}`);
-                        else console.log('Old images deleted successfully');
-                    });
+                const data = {
+                    image: imagePath,
+                    title: req.body.title || existingBanner.title,
+                    content: req.body.content || existingBanner.content,
+                    updated_at: Date.now()
                 }
-            } else imagePath = existingBanner?.image;
 
-            const data = {
-                image: imagePath,
-                title: req.body.title || existingBanner.title,
-                content: req.body.content || existingBanner.content,
-                updated_at: Date.now()
-            }
-
-            const { error } = bannerValidator.validate(data);
-            if (error) {
-                console.log("Validation failed: ", error);
+                const { error } = bannerValidator.validate(data);
+                if (error) {
+                    console.log("Validation failed: ", error);
+                } else {
+                    await bannerModel.findByIdAndUpdate(id, data);
+                    // console.log("updated banner: ", data);
+                    res.redirect('/home/banner');
+                }
             } else {
-                await bannerModel.findByIdAndUpdate(id, data);
-                // console.log("updated banner: ", data);
-                res.redirect('/home/banner');
+                res.redirect(`/home/banner/update/${id}`);
             }
         } catch (error) {
             console.error("error while editing banner: ", error);
