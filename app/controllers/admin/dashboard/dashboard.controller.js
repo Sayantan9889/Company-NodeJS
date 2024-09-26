@@ -1,7 +1,7 @@
 class dashboardController {
     async dashboardView(req, res) {
         res.render('dashboard', {
-            title: 'dashboard',
+            title: 'Dashboard',
             data: {
                 url: req.url
             }
