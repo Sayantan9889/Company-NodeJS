@@ -37,17 +37,20 @@ class bannerController {
         try {
             const id = req.params.id || req.body.id;
             const banner = await bannerModel.findById(id, { __v: 0 })
-            console.log("banner: ", banner);
-            res.render('home_content/banner/edit', {
-                title: 'Banner-edit',
-                data: {
-                    banner,
-                    url: req.url
-                }
-            });
+            if (banner) {
+                res.render('home_content/banner/edit', {
+                    title: 'Banner-edit',
+                    data: {
+                        banner,
+                        url: req.url
+                    }
+                });
+            } else {
+                console.log('couldn\'t find the banner or it is deactive.');
+                res.redirect('/home/banner');
+            }
         } catch (error) {
             console.log("error: ", error);
-
         }
     }
 

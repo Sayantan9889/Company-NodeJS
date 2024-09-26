@@ -41,7 +41,7 @@
       <section class="content">
         <div class="container-fluid">
 
-          <a href="/home/services/add" class="btn btn-info"> Add Service</a>
+          <a href="/home/service/add" class="btn btn-info"> Add Service</a>
           <!-- serviceList -->
           <h3 style="text-align: center; text-decoration: underline;">Services list</h3>
           <table class="table mt-2">
@@ -64,7 +64,7 @@
                   <%= index+1 %>
                 </th>
                 <td style="padding-bottom: 0.36rem;">
-                  <img style="height: 50px; width: 50px; border-radius: 50%;" src="<%= service.image %>" alt="">
+                  <img style="height: 50px; width: 50px;" src="<%= service.image %>" alt="">
                 </td>
                 <td style="padding-bottom: 0.36rem;">
                   <%= service.hover_color %>
@@ -81,12 +81,12 @@
                         -webkit-box-orient: vertical;">
                   <%= service.content %>
                 </td>
-                <td style="padding-bottom: 0.36rem;"><a href="/home/services/active-deactive/<%=service._id%>" class="btn btn-warning">
-                    <%= service.isActive ? 'Deactive' : 'Active' %>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/service/active-deactive/<%=service._id%>" class="btn <%= service.isActive ? 'btn-success' : 'btn-warning' %>">
+                    <%= service.isActive ? 'Active' : 'Deactive' %>
                   </a></td>
-                <td style="padding-bottom: 0.36rem;"><a href="/home/services/update/<%=service._id%>" class="btn btn-success">Edit</a>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/service/update/<%=service._id%>" class="btn btn-primary">Edit</a>
                 </td>
-                <td style="padding-bottom: 0.36rem;"><a class="btn btn-danger" onclick="deleteBanner('<%= service._id %>')"> Delete</a></td>
+                <td style="padding-bottom: 0.36rem;"><a class="btn btn-danger" onclick="deleteService('<%= service._id %>')"> Delete</a></td>
               </tr>
               <% }) %>
 
@@ -105,6 +105,23 @@
 
   </div>
   <!-- ./wrapper -->
+
+
+  <script>
+    function deleteService(id) {
+      if (confirm('Are you sure you want to delete this banner?')) {
+        fetch(`/home/service/delete/${id}`, {
+          method: 'DELETE'
+        }).then((response) => {
+          location.reload(); // Reload to reflect changes
+          console.log("response: ", response);
+        }).catch((error) => {
+          console.error('Error:', error);
+        });
+      }
+    }
+  </script>
+
 </body>
 
 </html>

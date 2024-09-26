@@ -25,10 +25,14 @@ router.post('/home/about-us/edit/:id', aboutUsController.editAboutUs);
 
 
 /* +=========== Services ===========+ */
-router.get('/home/services', serviceController.serviceList);
-router.get('/home/services/add', serviceController.serviceAdd);
+router.get('/home/service', serviceController.serviceList);
+router.get('/home/service/add', serviceController.serviceAdd);
+router.get('/home/service/update/:id', serviceController.serviceUpdate);
 
-router.post('/home/service/create', upload.single('image'), serviceController.createService)
+router.post('/home/service/create', upload.single('image'), serviceController.createService);
+router.post('/home/service/edit/:id', upload.single('image'), serviceController.editService);
+router.get('/home/service/active-deactive/:id', serviceController.activeDeactiveService);
+router.delete('/home/service/delete/:id', serviceController.deleteService);
 
 
 /* +=========== banner ===========+ */

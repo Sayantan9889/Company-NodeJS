@@ -74,10 +74,10 @@
                         -webkit-box-orient: vertical;">
                   <%= banner.content %>
                 </td>
-                <td style="padding-bottom: 0.36rem;"><a href="/home/banner/active-deactive/<%=banner._id%>" class="btn btn-warning">
-                    <%= banner.isActive ? 'Deactive' : 'Active' %>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/banner/active-deactive/<%=banner._id%>" class="btn <%= banner.isActive ? 'btn-success' : 'btn-warning' %>">
+                    <%= banner.isActive ? 'Active' : 'Deactive' %>
                   </a></td>
-                <td style="padding-bottom: 0.36rem;"><a href="/home/banner/update/<%=banner._id%>" class="btn btn-success">Edit</a>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/banner/update/<%=banner._id%>" class="btn btn-primary">Edit</a>
                 </td>
                 <td style="padding-bottom: 0.36rem;"><a class="btn btn-danger" onclick="deleteBanner('<%= banner._id %>')"> Delete</a></td>
               </tr>
