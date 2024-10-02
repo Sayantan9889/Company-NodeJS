@@ -30,7 +30,8 @@ class ourTeamController {
 
     async ourTeamUpdate(req, res) {
         try {
-            // const ourTeam = await aboutUsHomeModel.find({}, { __v: 0 });
+            const id = req.params.id || req.body.id;
+            // const ourTeam = await aboutUsHomeModel.findById(id, { __v: 0 });
             const ourTeam = {
                 description: 'Our team description',
                 memberList: [{
