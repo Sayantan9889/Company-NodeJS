@@ -1,4 +1,4 @@
-const { aboutUsHomeValidator, aboutUsHomeModel } = require('../../../models/home-content/about-us.model');
+const { aboutUsHomeValidator, aboutUsHomeModel } = require('../../../models/about-us/about.model');
 
 class aboutUsHomeController {
 

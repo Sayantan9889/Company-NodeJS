@@ -1,10 +1,10 @@
-const { aboutUsHomeValidator, aboutUsHomeModel } = require('../../../models/home-content/about-us.model');
+const { aboutUsHomeValidator, aboutUsHomeModel } = require('../../../models/about-us/about.model');
 
 class aboutUsHomeController {
     async aboutUsList(req, res) {
         try {
             const aboutUs = await aboutUsHomeModel.find({}, { __v: 0 })
-            res.render('home_content/about-us/view', {
+            res.render('about-us/about/view', {
                 title: 'About Us',
                 data: {
                     length: aboutUs?.length,
@@ -22,7 +22,7 @@ class aboutUsHomeController {
         try {
             const id = req.params.id || req.body.id;
             const aboutUs = await aboutUsHomeModel.findById(id, { __v: 0 })
-            res.render('home_content/about-us/edit', {
+            res.render('about-us/about/edit', {
                 title: 'About Us - edit',
                 data: {
                     aboutUs,
