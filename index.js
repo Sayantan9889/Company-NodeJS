@@ -37,12 +37,16 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 // Routers for ejs only
 const dashboardRouter = require('./app/router/admin/dashboard.router');
 const adminHomeContentdRouter = require('./app/router/admin/home-content.router');
+const adminAboutUsRouter = require('./app/router/admin/about.router');
 app.use(dashboardRouter);
 app.use(adminHomeContentdRouter);
+app.use(adminAboutUsRouter);
 
 // Routers for api only
 const homeContentdRouter = require('./app/router/api/home-content.router');
+const aboutUsRouter = require('./app/router/api/about-us.router');
 app.use('/api', homeContentdRouter);
+app.use('/api', aboutUsRouter);
 
 
 

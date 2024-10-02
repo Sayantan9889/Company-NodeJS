@@ -58,7 +58,7 @@ class aboutUsHomeController {
             } else {
                 await aboutUsHomeModel.findByIdAndUpdate(id, data);
                 // console.log("updated banner: ", data);
-                res.redirect('/home/about-us');
+                res.redirect('/about-us/about');
             }
         } catch (error) {
             console.error("error while editing banner: ", error);

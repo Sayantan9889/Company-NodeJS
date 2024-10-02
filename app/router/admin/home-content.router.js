@@ -1,7 +1,6 @@
 const express = require('express');
 const bannerController = require('../../controllers/admin/home_content/banner.controller');
 const upload = require('../../helper/upload-image.helper');
-const aboutUsController = require('../../controllers/admin/home_content/about-us.controller');
 const serviceController = require('../../controllers/admin/home_content/service.controller');
 
 const router = express.Router();
@@ -17,11 +16,6 @@ router.get('/home/banner/active-deactive/:id', bannerController.activeDeactiveBa
 router.delete('/home/banner/delete/:id', bannerController.deleteBanner);
 
 
-/* +=========== About us ===========+ */
-router.get('/home/about-us', aboutUsController.aboutUsList);
-router.get('/home/about-us/update/:id', aboutUsController.aboutUsUpdate);
-
-router.post('/home/about-us/edit/:id', aboutUsController.editAboutUs);
 
 
 /* +=========== Services ===========+ */
