@@ -20,11 +20,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
+// coockie parser
+const cookieParser = require('cookie-parser')
+
+
 // Set up EJS as the templating engine for views.
 const ejs = require('ejs');
 app.set('view engine', 'ejs');
 // Sets the views folder path for EJS.
-app.set('views','views');
+app.set('views', 'views');
 
 
 // Serves static files from folders 
@@ -53,6 +57,6 @@ app.use('/api', aboutUsRouter);
 
 
 const PORT = process.env.PORT || 9000;
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 })

@@ -57,7 +57,22 @@ class ourTeamController {
     }
 
 
-
+    async ourTeamEdit(req, res) {
+        try {
+            const id = req.params.id || res.body.id;
+            console.log("id: ", id);
+            const { error, value } = ourTeamValidator.validate(req.body);
+            if (error) {
+                console.log("Validation failed: ", error);
+            } else {
+                await ourTeamModel.findByIdAndUpdate(id, value);
+                console.log("created our team: ", value);
+                res.redirect('/about-us/our-team');
+            }
+        } catch (error) {
+            console.log("error: ", error);
+        }
+    }
 }
 
 module.exports = new ourTeamController();
