@@ -5,10 +5,14 @@ const joi = require('joi');
 
 const ourTeamValidator = joi.object({
     description: joi.string().required(),
-    // teamMembers: joi.array().items(joi.string()).required()
+    teamMembers: joi.array().items(joi.string())
 });
 const ourTeamschema = new Schema({
-    description: { type: 'string' }
+    description: { type: 'string' },
+    teamMembers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'teamMember'
+    }]
 });
 const ourTeamModel = mongoose.model('ourTeam', ourTeamschema);
 

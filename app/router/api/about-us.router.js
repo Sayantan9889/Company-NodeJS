@@ -11,5 +11,6 @@ router.get('/about-us/about/fetch', aboutUsController.fetchAboutUsHome);
 
 /* +=========== Our Teams ===========+ */
 router.post('/about-us/our-team/create', ourTeamController.ourTeamCreate); /* This is only for creating first time */
+router.post('/about-us/our-team/edit/:id', ourTeamController.ourTeamEdit); /* This is only for creating first time */
 
 module.exports = router;

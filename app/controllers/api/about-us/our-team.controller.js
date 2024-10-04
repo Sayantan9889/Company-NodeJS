@@ -29,6 +29,13 @@ class ourTeamController {
 
     async ourTeamCreate(req, res) {
         try {
+            const teams = await ourTeamModel.find();
+            if(teams.length >= 1) {
+                return res.status(400).json({
+                    message: 'Only one Team Description can be there!'
+                });
+            }
+
             const { error, value } = ourTeamValidator.validate(req.body);
             if (error) {
                 console.log("Validation failed: ", error);
@@ -46,6 +53,38 @@ class ourTeamController {
             }
         } catch (error) {
             console.log("error: ", error);
+            return res.status(500).json({
+                message: 'Some error occured!',
+                data: error
+            })
+        }
+    }
+
+    async ourTeamEdit(req, res) {
+        try {
+            const id = req.params.id || res.body.id;
+            console.log("id: ", id);
+            const { error, value } = ourTeamValidator.validate(req.body);
+            if (error) {
+                console.log("Validation failed: ", error);
+                return res.status(400).json({
+                    message: 'Validation failed!',
+                    error
+                });
+            } else {
+                await ourTeamModel.findByIdAndUpdate(id, value);
+                console.log("created our team: ", value);
+                return res.status(200).json({
+                    message: 'Our team updated successfully.',
+                    data: value
+                })
+            }
+        } catch (error) {
+            console.log("error: ", error);
+            return res.status(500).json({
+                message: 'Some error occured!',
+                data: error
+            })
         }
     }
 
