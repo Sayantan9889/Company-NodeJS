@@ -55,6 +55,15 @@ class ourTeamController {
             res.redirect('/');
         }
     }
+
+
+
+    async ourTeamCreate(req, res) {
+        try {
+        } catch (error) {
+            console.log("error: ", error);
+        }
+    }
 }
 
 module.exports = new ourTeamController();
