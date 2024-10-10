@@ -5,7 +5,7 @@ const path = require('path');
 class ourTeamController {
     async ourTeamList(req, res) {
         try {
-            const ourTeam = await ourTeamModel.find({}, { __v: 0 }).populate('teamMember');
+            const ourTeam = await ourTeamModel.find({ __v: 0 }).populate('teamMembers');
 
             if (ourTeam) {
                 return res.status(200).json({
@@ -215,7 +215,6 @@ class ourTeamController {
                         teamMembers: _teamMembers
                     }
                 }
-                console.log("_data: ", _data);
 
                 await ourTeamModel.findByIdAndUpdate(teamId, _data);
             } else return res.status(200).json({ message: "NO team found" });

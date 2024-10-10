@@ -19,6 +19,20 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
+      <!-- Flash message -->
+      <% if (messages.length != 0) { %>
+      <div class="position-absolute" style="width: calc(100% - 250px);">
+        <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right w-50" style="z-index: 999;" id="teamAlert" role="alert">
+          <%= messages[0] %>
+          <button type="button" class="close" id="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <% } %>
+      <!-- Flash message end -->
+
+
       <!-- Content Header (breadcrump) -->
       <div class="content-header">
         <div class="container-fluid">
@@ -47,7 +61,7 @@
 
             <div class="our-team-desc">
               <input type="text" class="description form-control" name="heading" value="<%= data.ourTeam.description %>" disabled>
-              <a href="/about-us/our-team/update/<%= data.ourTeam.id %>" class="btn btn-primary"  style="margin-left: 10px;">Edit%></a>
+              <a href="/about-us/our-team/update/<%= data.ourTeam.id %>" class="btn btn-primary" style="margin-left: 10px;">Edit%></a>
             </div>
           </form>
 
@@ -65,7 +79,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% data.ourTeam.memberList.forEach((member, index)=> {%>
+                <% data.ourTeam.teamMembers.forEach((member, index)=> {%>
                 <tr>
                   <th scope="row"> <%= index+1 %> </th>
                   <td style="padding-bottom: 0.36rem;"><img style="height: 50px; width: 50px;" src="<%= member.image %>" alt=""></td>
@@ -98,11 +112,24 @@
   </div>
   <!-- ./wrapper -->
 
-  <!-- Configure for TinyMice Editor -->
+
+
   <script>
     function deleteBanner(id) {
       alert('Hello ');
     }
+
+
+    // +======= for connect-flash message ========+
+    function vanish() {
+      $('#teamAlert').fadeOut('fast');
+    }
+    $("#close").click(vanish)
+    $(document).ready(function() {
+      setTimeout(function() {
+        vanish()
+      }, 3000);
+    });
   </script>
 </body>
 
