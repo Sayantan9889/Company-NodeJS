@@ -2,6 +2,17 @@
 const express = require('express');
 const app = express();
 
+// configuration for connect-flash
+const flash = require('connect-flash');
+const session = require('express-session');
+app.use(
+    session({
+        secret: 'mysecretkey',
+        saveUninitialized: true,
+        resave: true,
+    })
+);
+app.use(flash());
 
 // Load environment variables from .env file
 const dotenv = require('dotenv');
@@ -21,7 +32,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // coockie parser
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 
 // Set up EJS as the templating engine for views.

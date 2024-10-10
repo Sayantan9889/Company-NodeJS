@@ -12,7 +12,8 @@ class bannerController {
                     length: banners?.length,
                     bannerList: banners,
                     url: req.url
-                }
+                },
+                messages: req.flash('message')
             });
         } catch (error) {
             console.log("error: ", error);
@@ -26,7 +27,8 @@ class bannerController {
                 title: 'Banner-add',
                 data: {
                     url: req.url
-                }
+                },
+                messages: req.flash('message')
             });
         } catch (error) {
             console.log("error: ", error);
@@ -76,16 +78,23 @@ class bannerController {
 
                 const { error } = bannerValidator.validate(_data);
                 if (error) {
+                    req.flash('message', [`Validation failed!`, 'warning']);
+                    res.redirect('/home/banner/add');
                     console.log("Validation failed: ", error);
                 } else {
                     const banner = await new bannerModel(_data).save();
                     console.log("created banner: ", banner);
+                    req.flash('message', [`Banner created successfully!`, 'success']);
                     res.redirect('/home/banner');
                 }
             } else {
+                req.flash('message', [`Image is required!`, 'warning']);
+                res.redirect('/home/banner/add');
                 console.error('image is required')
             }
         } catch (error) {
+            req.flash('message', [`Something went wrong!`, 'danger']);
+            res.redirect('/home/banner');
             console.error("error while creating banner: ", error);
         }
     }
@@ -121,15 +130,21 @@ class bannerController {
                 const { error } = bannerValidator.validate(data);
                 if (error) {
                     console.log("Validation failed: ", error);
+                    req.flash('message', [`Validation failed!`, 'warning']);
+                    res.redirect(`/home/banner/update/${id}`);
                 } else {
                     await bannerModel.findByIdAndUpdate(id, data);
                     // console.log("updated banner: ", data);
+
+                    req.flash('message', [`Banner updated successfully!`, 'success']);
                     res.redirect('/home/banner');
                 }
             } else {
-                res.redirect(`/home/banner/update/${id}`);
+                req.flash('message', [`Could not find the banner!`, 'warning']);
+                res.redirect('/home/banner');
             }
         } catch (error) {
+            req.flash('message', [`Something went wrong!`, 'danger']);
             console.error("error while editing banner: ", error);
         }
     }
@@ -140,8 +155,11 @@ class bannerController {
             const existingBanner = await bannerModel.findById(id);
             const banner = await bannerModel.findByIdAndUpdate(id, { isActive: !existingBanner.isActive });
             console.log("Active/Deactive banner: ", banner);
+            req.flash('message', [`Banner successfully ${!existingBanner.isActive ? 'activated' : 'deactivated'}!`, 'success'])
             res.redirect('/home/banner');
         } catch (error) {
+            req.flash('message', [`Something went wrong!`, 'danger']);
+            res.redirect('/home/banner');
             console.error("error while editing banner: ", error);
         }
     }
@@ -161,10 +179,13 @@ class bannerController {
             }
             await bannerModel.findByIdAndDelete(id);
             console.log("Banner deleted successfully!");
+            req.flash('message', [`Banner deleted successfully!`, 'success']);
             res.redirect('/home/banner');
 
         } catch (error) {
             console.error("error while editing banner: ", error);
+            req.flash('message', [`Banner deleted successfully!`, 'danger']);
+            res.redirect('/home/banner');
         }
     }
 }
