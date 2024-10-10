@@ -22,7 +22,7 @@ class bannerController {
                 const { error } = bannerValidator.validate(_data);
                 if (error) {
                     console.log("Validation failed: ", error);
-                    return res.status(400).json({ 
+                    return res.status(400).json({
                         message: 'Validation failed!',
                         error
                     });
@@ -47,9 +47,9 @@ class bannerController {
 
     async fetchAllbanner(req, res) {
         try {
-            const banners = await bannerModel.find({isActive: true}, { __v: 0 })
-            
-            if(banners.length) {
+            const banners = await bannerModel.find({ isActive: true }, { __v: 0 })
+
+            if (banners.length) {
                 return res.status(200).json({
                     message: 'Successfully fetched all banners.',
                     data: banners
@@ -73,7 +73,7 @@ class bannerController {
         try {
             const id = req.params.id;
             const banner = await bannerModel.findOne({ _id: id, isActive: true }, { __v: 0 });
-            if(banner) {
+            if (banner) {
                 return res.status(200).json({
                     message: 'Successfully fetched the banner.',
                     data: banner
@@ -84,7 +84,7 @@ class bannerController {
                     data: {}
                 });
             }
-            
+
         } catch (error) {
             console.error("error: ", error);
             return res.status(500).json({
@@ -96,13 +96,13 @@ class bannerController {
 
     async editBanner(req, res) {
         try {
-            const id = req.params.id || req.body.id;
+            const id = req.params.id;
             const basePath = `${req.protocol}://${req.get('host')}/uploads`;
             const file = req.file;
             let imagePath = "";
 
             const existingBanner = await bannerModel.findById(id);
-            if(!existingBanner) {
+            if (!existingBanner) {
                 return res.status(301).json({
                     message: 'No banner found',
                     data: {}
@@ -131,7 +131,7 @@ class bannerController {
             const { error } = bannerValidator.validate(data);
             if (error) {
                 console.log("Validation failed: ", error);
-                return res.status(400).json({ 
+                return res.status(400).json({
                     message: 'Validation failed!',
                     error
                 });
@@ -154,16 +154,16 @@ class bannerController {
 
     async activeDeactiveBanner(req, res) {
         try {
-            const id = req.params.id || req.body.id;
+            const id = req.params.id;
             const existingBanner = await bannerModel.findById(id);
             const banner = await bannerModel.findByIdAndUpdate(id, { isActive: !existingBanner.isActive });
             console.log("Active/Deactive banner: ", banner);
-            return res.status(200).json({ 
+            return res.status(200).json({
                 message: `Successfully ${!existingBanner.isActive ? 'activated' : 'deactivated'} the banner.`
             });
         } catch (error) {
             console.error("error while editing banner: ", error);
-            return res.status(500).json({ 
+            return res.status(500).json({
                 message: 'Some error occured!',
                 error: error
             });
@@ -172,7 +172,7 @@ class bannerController {
 
     async deleteBanner(req, res) {
         try {
-            const id = req.params.id || req.body.id;
+            const id = req.params.id;
             const existingBanner = await bannerModel.findById(id);
             const existingImage = existingBanner.image.split('/').pop(); // Get the image file name;
             if (existingImage && existingImage !== 'no-image.png') {
@@ -185,13 +185,13 @@ class bannerController {
             }
             await bannerModel.findByIdAndDelete(id);
             console.log("Banner deleted successfully!");
-            return res.status(200).json({ 
+            return res.status(200).json({
                 message: `Successfully deleted the banner.`
             });
 
         } catch (error) {
             console.error("error while editing banner: ", error);
-            return res.status(500).json({ 
+            return res.status(500).json({
                 message: 'Some error occured!',
                 error: error
             });
