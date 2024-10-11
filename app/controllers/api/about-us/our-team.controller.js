@@ -91,7 +91,6 @@ class ourTeamController {
     */
     async teamMemberCreate(req, res) {
         try {
-            console.log("Hello  kutta");
             const file = req.file;
             const basePath = `${req.protocol}://${req.get('host')}`;
             let imagePath = `${basePath}/assets/no-image.png`;

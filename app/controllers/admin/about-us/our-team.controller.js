@@ -2,21 +2,28 @@ const { teamMemberValidator, ourTeamValidator, teamMemberModel, ourTeamModel } =
 const fs = require('fs');
 const path = require('path');
 class ourTeamController {
+    /**
+     * Our Team
+     */
     async ourTeamList(req, res) {
         try {
             let ourTeam = await ourTeamModel.find({ __v: 0 }).populate('teamMembers');
             ourTeam = ourTeam[0];
+
+            const memberList = await teamMemberModel.find({ __v: 0 });
             res.render('about-us/our-team/view', {
                 title: 'Our Team',
                 data: {
                     length: ourTeam?.length,
                     ourTeam: ourTeam,
+                    memberList,
                     url: req.url
                 },
                 messages: req.flash('message')
             });
         } catch (error) {
             console.log("error: ", error);
+            req.flash('message', [`Something went wrong!`, 'danger']);
             res.redirect('/');
         }
     }
@@ -38,15 +45,15 @@ class ourTeamController {
             });
         } catch (error) {
             console.log("error: ", error);
-            res.redirect('/');
+            req.flash('message', [`Something went wrong!`, 'danger']);
+            res.redirect('/about-us/our-team');
         }
     }
 
     async ourTeamEdit(req, res) {
-        console.log('khgjh');
         try {
             const id = req.params.id || res.body.id;
-            console.log("id: ", id,  req.body);
+            console.log("id: ", id, req.body);
             const { error, value } = ourTeamValidator.validate(req.body);
             if (error) {
                 console.log("Validation failed: ", error);
@@ -69,9 +76,41 @@ class ourTeamController {
     /**
      * TEAM MEMBERS
     */
+    async teamMemberAdd(req, res) {
+        try {
+            res.render('about-us/our-team/team-member/add', {
+                title: 'Team Member - Add',
+                data: {
+                    url: req.url
+                }
+            });
+        } catch (error) {
+            console.log("error: ", error);
+            req.flash('message', [`Something went wrong!`, 'danger']);
+            res.redirect('/about-us/our-team');
+        }
+    }
+    
+    async teamMemberUpdate(req, res) {
+        try {
+            const id = req.params.id;
+            const member = await teamMemberModel.findById(id);
+            res.render('about-us/our-team/team-member/edit', {
+                title: 'Team Member - Edit',
+                data: {
+                    url: req.url,
+                    member
+                }
+            });
+        } catch (error) {
+            console.log("error: ", error);
+            req.flash('message', [`Something went wrong!`, 'danger']);
+            res.redirect('/about-us/our-team');
+        }
+    }
+
     async teamMemberCreate(req, res) {
         try {
-            console.log("Hello  kutta");
             const file = req.file;
             const basePath = `${req.protocol}://${req.get('host')}`;
             let imagePath = `${basePath}/assets/no-image.png`;
@@ -151,7 +190,7 @@ class ourTeamController {
             else {
                 await teamMemberModel.findByIdAndUpdate(id, value);
                 console.log("Update Team member data: ", value);
-                req.flash('message', [`Member's data updated successfully!`, 'warning']);
+                req.flash('message', [`Member's data updated successfully!`, 'success']);
                 res.redirect(`/about-us/our-team`);
             }
 

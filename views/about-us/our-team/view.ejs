@@ -66,7 +66,7 @@
           </form>
 
           <div class="our-team">
-            <a href="#" class="btn btn-info"> Add Team Member</a>
+            <a href="/about-us/our-team/members/add" class="btn btn-info"> Add Team Member</a>
             <table class="table mt-2">
               <thead>
                 <tr>
@@ -79,18 +79,18 @@
                 </tr>
               </thead>
               <tbody>
-                <% data.ourTeam.teamMembers.forEach((member, index)=> {%>
+                <% data.memberList.forEach((member, index)=> {%>
                 <tr>
                   <th scope="row"> <%= index+1 %> </th>
                   <td style="padding-bottom: 0.36rem;"><img style="height: 50px; width: 50px;" src="<%= member.image %>" alt=""></td>
                   <td style="padding-bottom: 0.36rem;"> <%= member.name %> </td>
                   <td style="padding-bottom: 0.36rem; "> <%= member.designation %> </td>
-                  <td style="padding-bottom: 0.36rem;"><a href="#" class="btn <%= member.isActive ? 'btn-success' : 'btn-warning' %>">
+                  <td style="padding-bottom: 0.36rem;"><a href="/about-us/our-team/members/active-deactive/<%= member._id %>" class="btn <%= member.isActive ? 'btn-success' : 'btn-warning' %>">
                       <%= member.isActive ? 'Active' : 'Deactive' %>
                     </a></td>
                   <td style="padding-bottom: 0.36rem; display: flex; max-width: 100px;">
-                    <a href="#" class="btn btn-primary" style="margin-right: 10px;">Edit</a>
-                    <a class="btn btn-danger" onclick="deleteBanner('12345')"> Delete</a>
+                    <a href="/about-us/our-team/members/update/<%= member._id %>" class="btn btn-primary" style="margin-right: 10px;">Edit</a>
+                    <a class="btn btn-danger" onclick="deleteBanner('<%= member._id %>')"> Delete</a>
                   </td>
                 </tr>
                 <% }) %>
@@ -116,7 +116,14 @@
 
   <script>
     function deleteBanner(id) {
-      alert('Hello ');
+      if (confirm('Are you sure you want to delete this banner?')) {
+        fetch(`/about-us/our-team/members/delete/${id}`, {
+          method: 'DELETE'
+        }).then(response => {
+          location.reload(); // Reload to reflect changes
+          console.log("response: ", response);
+        }).catch(error => console.error('Error:', error));
+      }
     }
 
 
@@ -128,7 +135,7 @@
     $(document).ready(function() {
       setTimeout(function() {
         vanish()
-      }, 3000);
+      }, 5000);
     });
   </script>
 </body>

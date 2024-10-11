@@ -13,6 +13,9 @@ router.post('/about-us/our-team/edit/:id', ourTeamController.ourTeamEdit);
 
 
 /* +=========== Team Member ===========+ */
+router.get('/about-us/our-team/members/add', ourTeamController.teamMemberAdd);
+router.get('/about-us/our-team/members/update/:id', ourTeamController.teamMemberUpdate);
+
 router.post('/about-us/our-team/members/create', upload.single('image'), ourTeamController.teamMemberCreate);
 router.post('/about-us/our-team/members/edit/:id', upload.single('image'), ourTeamController.teamMemberEdit);
 router.get('/about-us/our-team/members/active-deactive/:id', ourTeamController.teamMemberActiveInactive);
