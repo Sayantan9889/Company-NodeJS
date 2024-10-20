@@ -3,8 +3,8 @@
 <body style="font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #6e8efb, #a777e3); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center;">
   <!-- Flash message -->
   <% if (messages.length != 0) { %>
-  <div class="position-absolute" style="width: calc(100% - 250px);">
-    <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right w-50" style="z-index: 999;" id="teamAlert" role="alert">
+  <div class="position-absolute" style="width: 100%; top: 0;">
+    <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right" style="z-index: 999; width: 40%;" id="teamAlert" role="alert">
       <%= messages[0] %>
       <button type="button" class="close" id="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -42,7 +42,7 @@
         toggleBtn.innerHTML = `<i class="fa fa-eye" aria-hidden="true"></i>`;
       }
     }
-    
+
     // +======= for connect-flash message ========+
     function vanish() {
       $('#teamAlert').fadeOut('fast');

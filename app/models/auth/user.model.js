@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 const joi = require('joi');
 
 const userValidator = joi.object({
+    image: joi.string().required(),
     first_name: joi.string().required(),
     last_name: joi.string().required(),
     name: joi.string().required(),
@@ -17,6 +18,7 @@ const userValidator = joi.object({
 });
 
 const userSchema = new Schema({
+    image: {type: 'string'},
     first_name: {type: 'string'},
     last_name: {type: 'string'},
     name: { type: string },

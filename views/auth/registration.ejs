@@ -5,8 +5,8 @@
 
   <!-- Flash message -->
   <% if (messages.length != 0) { %>
-  <div class="position-absolute" style="width: calc(100% - 250px);">
-    <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right w-50" style="z-index: 999;" id="teamAlert" role="alert">
+  <div class="position-absolute" style="width: 100%; top: 0;">
+    <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right" style="z-index: 999; width: 40%;" id="teamAlert" role="alert">
       <%= messages[0] %>
       <button type="button" class="close" id="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -16,39 +16,56 @@
   <% } %>
 
 
-  <div style="background-color: white; padding: 30px; width: 400px; border-radius: 10px; box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); text-align: center;">
+  <div style="background-color: white; padding: 30px; width: 700px; border-radius: 10px; box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); text-align: center;">
     <h2 style="margin-bottom: 20px; color: #333;">Create an Account</h2>
 
     <form>
+      <!-- User Image Upload -->
+      <div style="margin-bottom: 15px;">
+        <!-- <label for="user-image" style="display: block; font-size: 14px; color: #555;">Upload Profile Picture</label> -->
+        <input type="file" id="user-image" accept="image/*" onchange="previewImage()" style="display: none;">
+        <div style="position: relative;">
+          <img id="image-preview" src="http://localhost:5100/assets/profile-pic-placeholder.png" alt="Profile Picture" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px; cursor: pointer;" onclick="document.getElementById('user-image').click();">
+        </div>
+      </div>
+
+      <!-- name -->
       <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-        <input type="text" placeholder="First Name" style="width: 48%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-        <input type="text" placeholder="Last Name" style="width: 48%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <input type="text" placeholder="First Name" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <input type="text" placeholder="Last Name" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
       </div>
 
-      <input type="email" placeholder="Email" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
 
-      <div style="position: relative; margin-bottom: 15px;">
-        <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-        <button type="button" onclick="togglePassword('password', 'toggleBtn')" id="toggleBtn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 14px; cursor: pointer;"><i class="fa fa-eye" aria-hidden="true"></i></button>
+      <!-- email -->
+      <input type="email" placeholder="Email" style="width: 100%; padding: 5px 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+
+      <!-- password -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+        <div style="position: relative; width: 48%;">
+          <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+          <button type="button" onclick="togglePassword('password', 'toggleBtn')" id="toggleBtn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 14px; cursor: pointer;"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        </div>
+
+        <div style="position: relative; width: 48%;">
+          <input type="password" id="confirm-password" placeholder="Confirm Password" style="width: 100%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+          <button type="button" onclick="togglePassword('confirm-password', 'toggleBtnConfirm')" id="toggleBtnConfirm" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 14px; cursor: pointer;"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        </div>
       </div>
-
-      <!-- <div style="position: relative; margin-bottom: 15px;">
-        <input type="password" id="confirm-password" placeholder="Confirm Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
-        <button type="button" onclick="togglePassword('confirm-password', 'toggleBtnConfirm')" id="toggleBtnConfirm" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 14px; cursor: pointer;"><i class="fa fa-eye" aria-hidden="true"></i></button>
-      </div> -->
 
       <!-- Hint Question / Answer -->
-      <select style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
-        <option disabled selected>Select a Hint Question</option>
-        <option>What is your pet's name?</option>
-        <option>What is your mother's maiden name?</option>
-        <option>What was your first car?</option>
-        <option>What city were you born in?</option>
-      </select>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <select style="width: 48%; padding: 5px 10px;  border: 1px solid #ccc; border-radius: 5px;">
+          <option disabled selected>Select a Hint Question</option>
+          <option>What is your pet's name?</option>
+          <option>What is your mother's maiden name?</option>
+          <option>What was your first car?</option>
+          <option>What city were you born in?</option>
+        </select>
+        <input type="text" placeholder="Hint Answer" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
 
-      <input type="text" placeholder="Hint Answer" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
 
-      <button type="submit" style="width: 100%; padding: 10px; background-color: #ff9a9e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Register</button>
+      <button type="submit" style="width: 100%; padding: 5px 10px; background-color: #ff9a9e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Register</button>
     </form>
 
     <p style="margin-top: 20px; color: #777;">Already have an account? <a href="#" style="color: #ff9a9e; text-decoration: none;">Login here</a></p>
@@ -56,6 +73,7 @@
 
 
   <script>
+    // +======= show/hide password ========+
     function togglePassword(fieldId, toggleBtnId) {
       const passwordField = document.getElementById(fieldId);
       const toggleBtn = document.getElementById(toggleBtnId);
@@ -69,6 +87,19 @@
       }
     }
 
+    // +======= preview image for user ========+
+    function previewImage() {
+      const file = document.getElementById('user-image').files[0];
+      const preview = document.getElementById('image-preview');
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = function() {
+          preview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
 
     // +======= for connect-flash message ========+
     function vanish() {
