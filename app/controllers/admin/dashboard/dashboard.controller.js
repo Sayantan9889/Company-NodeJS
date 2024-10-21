@@ -4,7 +4,8 @@ class dashboardController {
             title: 'Dashboard',
             data: {
                 url: req.url
-            }
+            },
+            messages: req.flash('message')
         });
     }
 }

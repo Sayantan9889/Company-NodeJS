@@ -18,6 +18,20 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+      <!-- Flash message -->
+  <% if (messages.length != 0) { %>
+    <div class="position-absolute" style="width: 100%; top: 0;">
+      <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right" style="z-index: 999; width: 40%;" id="teamAlert" role="alert">
+        <%= messages[0] %>
+        <button type="button" class="close" id="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <% } %>
+
+
+
       <!-- Content Header (breadcrump) -->
       <div class="content-header">
         <div class="container-fluid">
@@ -115,6 +129,20 @@
 
   </div>
   <!-- ./wrapper -->
+
+
+  <!-- +======= for connect-flash message ========+ -->
+  <script>
+    function vanish() {
+      $('#teamAlert').fadeOut('fast');
+    }
+    $("#close").click(vanish)
+    $(document).ready(function() {
+      setTimeout(function() {
+        vanish()
+      }, 3000);
+    });
+  </script>
 </body>
 
 </html>
