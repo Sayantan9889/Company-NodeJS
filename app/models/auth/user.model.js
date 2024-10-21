@@ -18,19 +18,19 @@ const userValidator = joi.object({
 });
 
 const userSchema = new Schema({
-    image: {type: 'string'},
-    first_name: {type: 'string'},
-    last_name: {type: 'string'},
-    name: { type: string },
-    email: { type: string, unique: true, index: true },
-    password: { type: string },
+    image: {type: String},
+    first_name: {type: String},
+    last_name: {type: String},
+    name: { type: String },
+    email: { type: String, unique: true, index: true },
+    password: { type: String },
     hint: {
-        question: { type: string },
-        answer: { type: string },
+        question: { type: String },
+        answer: { type: String },
     },
-    role: { type: string, enum: ['Admin', 'User'], default: 'User', index: true },
-    isActive: { type: Boolean, default: true, index: true },
-    isVarified: { type: boolean, default: false},
+    role: { type: String, enum: ['Admin', 'User'], default: 'User', index: true },
+    isActive: { type: Boolean, default: false, index: true },
+    isVarified: { type: Boolean, default: false},
     created_at: { type: Date, default: Date.now, index: true },
     updated_at: { type: Date, default: Date.now, index: true }
 });
