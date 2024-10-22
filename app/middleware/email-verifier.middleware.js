@@ -1,6 +1,6 @@
 const userModel = require("../models/auth/user.model");
 
-exports.checkEmali = (req, res, next) => {
+exports.checkEmalil = (req, res, next) => {
     userModel.findOne({ email: req.body.email }).then(data => {
         if (data) {
             req.flash('message', [`Email already exists!`, 'warning']);

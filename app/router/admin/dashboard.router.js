@@ -4,6 +4,6 @@ const authenticator = require('../../middleware/authenticator.middleware');
 
 const router = express.Router();
 
-router.get('/', authenticator.isLoggedin, dashboardController.dashboardView);
+router.get('/',  dashboardController.dashboardView); // authenticator.isLoggedin,
 
 module.exports = router;
