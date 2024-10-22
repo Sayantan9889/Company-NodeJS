@@ -19,11 +19,11 @@
   <div style="background-color: white; padding: 30px; width: 700px; border-radius: 10px; box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); text-align: center;">
     <h2 style="margin-bottom: 20px; color: #333;">Create an Account</h2>
 
-    <form>
+    <form action="/user/registration" method="post" enctype="multipart/form-data">
       <!-- User Image Upload -->
       <div style="margin-bottom: 15px;">
         <!-- <label for="user-image" style="display: block; font-size: 14px; color: #555;">Upload Profile Picture</label> -->
-        <input type="file" id="user-image" accept="image/*" onchange="previewImage()" style="display: none;">
+        <input type="file" id="user-image" accept="image/*" onchange="previewImage()" style="display: none;" name="image">
         <div style="position: relative;">
           <img id="image-preview" src="http://localhost:5100/assets/profile-pic-placeholder.png" alt="Profile Picture" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px; cursor: pointer;" onclick="document.getElementById('user-image').click();">
         </div>
@@ -31,37 +31,37 @@
 
       <!-- name -->
       <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-        <input type="text" placeholder="First Name" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
-        <input type="text" placeholder="Last Name" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <input type="text" placeholder="First Name" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;" name="first_name" required>
+        <input type="text" placeholder="Last Name" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;" name="last_name" required>
       </div>
 
 
       <!-- email -->
-      <input type="email" placeholder="Email" style="width: 100%; padding: 5px 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+      <input type="email" placeholder="Email" style="width: 100%; padding: 5px 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;" name="email" required>
 
       <!-- password -->
       <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
         <div style="position: relative; width: 48%;">
-          <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+          <input type="password" id="password" placeholder="Password" style="width: 100%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;" name="password" required>
           <button type="button" onclick="togglePassword('password', 'toggleBtn')" id="toggleBtn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 14px; cursor: pointer;"><i class="fa fa-eye" aria-hidden="true"></i></button>
         </div>
 
         <div style="position: relative; width: 48%;">
-          <input type="password" id="confirm-password" placeholder="Confirm Password" style="width: 100%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+          <input type="password" id="confirm-password" placeholder="Confirm Password" style="width: 100%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;" name="confirmPassword" required>
           <button type="button" onclick="togglePassword('confirm-password', 'toggleBtnConfirm')" id="toggleBtnConfirm" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 14px; cursor: pointer;"><i class="fa fa-eye" aria-hidden="true"></i></button>
         </div>
       </div>
 
       <!-- Hint Question / Answer -->
       <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-        <select style="width: 48%; padding: 5px 10px;  border: 1px solid #ccc; border-radius: 5px;">
+        <select style="width: 48%; padding: 5px 10px;  border: 1px solid #ccc; border-radius: 5px;" name="hint[question]" required>
           <option disabled selected>Select a Hint Question</option>
-          <option>What is your pet's name?</option>
-          <option>What is your mother's maiden name?</option>
-          <option>What was your first car?</option>
-          <option>What city were you born in?</option>
+          <option value="What is your pet's name?">What is your pet's name?</option>
+          <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+          <option value="What was your first car?">What was your first car?</option>
+          <option value="What city were you born in?">What city were you born in?</option>
         </select>
-        <input type="text" placeholder="Hint Answer" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <input type="text" placeholder="Hint Answer" style="width: 48%; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px;" name="hint[answer]" required>
       </div>
 
 
@@ -102,6 +102,7 @@
     }
 
     // +======= for connect-flash message ========+
+    vanish();
     function vanish() {
       $('#teamAlert').fadeOut('fast');
     }
@@ -113,6 +114,16 @@
     });
   </script>
 
+  <!-- jQuery -->
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
