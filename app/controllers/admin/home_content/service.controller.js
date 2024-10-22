@@ -92,7 +92,7 @@ class servicesController {
 
     async editService(req, res) {
         try {
-            const id = req.params.id || req.body.id;
+            const id = req.params.id;
             const basePath = `${req.protocol}://${req.get('host')}/uploads`;
             const file = req.file;
             let imagePath = "";

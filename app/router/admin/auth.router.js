@@ -14,7 +14,8 @@ router.get('/login', userController.login);
 /* +=========== Registration ===========+ */
 router.get('/registration', userController.registration);
 
-// router.post('/user/registration', emailVerifier.checkEmalil, upload.single('image'), userController.);
+router.post('/user/registration', upload.single('image'), userController.registerUser);
+router.get('/confirmation/:email/:token', userController.confirmEmail);
 
 
 module.exports = router;

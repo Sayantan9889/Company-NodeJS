@@ -4,7 +4,9 @@ const nodemailer = require("nodemailer");
 
 const hashPassword = async (password) => {
     try {
-        const salt = bcrypt.getSalt(10);
+        console.log("password: ", password);
+        const salt = await bcrypt.genSalt(10);
+        console.log("salt: ", salt);
         const hashPassword = await bcrypt.hash(password, salt);
         return hashPassword;
     } catch (error) {
@@ -13,7 +15,7 @@ const hashPassword = async (password) => {
     }
 }
 
-const comparePasswords = async (password, hashedPassword) => {
+const verifyPasswords = async (password, hashedPassword) => {
     try {
         return await bcrypt.compare(password, hashedPassword);
     } catch (error) {
@@ -24,7 +26,7 @@ const comparePasswords = async (password, hashedPassword) => {
 
 const tokenGenerator = async (userData) => {
     try {
-        const token = jsonwebtoken.sign(user, process.env.JWT_SECRET, { expiresIn: '24h' });
+        const token = jsonwebtoken.sign(userData, process.env.JWT_SECRET, { expiresIn: '24h' });
         return token;
     } catch (error) {
         console.log("error: ", error);
@@ -51,11 +53,10 @@ const transporter = async () => {
     }
 }
 
-const sendEmailVerificationLink = async (req, res, transporter, mailOptions) => {
+const sendEmailVerificationLink = async (req, res, mailOptions) => {
     try {
-        transporter.sendMail(mailOptions);
-        req.flash("message", "A Verification Email Sent To Your Mail ID.... Please Verify By Click The Link.... It Will Expire By 24 Hrs...")
-        res.redirect("/login");
+        const _transporter = await transporter();
+        _transporter.sendMail(mailOptions);
     } catch (error) {
         console.log("error: ", error);
         throw new Error("Something went wrong while sending email verification link!");
@@ -64,7 +65,7 @@ const sendEmailVerificationLink = async (req, res, transporter, mailOptions) => 
 
 module.exports = {
     hashPassword,
-    comparePasswords,
+    verifyPasswords,
     tokenGenerator,
     transporter,
     sendEmailVerificationLink,
