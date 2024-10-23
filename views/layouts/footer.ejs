@@ -40,3 +40,18 @@
 <script src="/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/dist/js/pages/dashboard.js"></script>
+
+<script>
+  function LogoutUser() {
+    if (confirm('Are you sure you want to logout?')) {
+      fetch(`/user/logout`, {
+        method: 'get'
+      }).then((response) => {
+        // location.reload(); // Reload to reflect changes
+        location.replace('/login');
+      }).catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  }
+</script>

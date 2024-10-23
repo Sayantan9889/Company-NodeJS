@@ -161,7 +161,6 @@ class UserController {
             const { email, password } = req.body;
 
             const user = await userModel.findOne({ email: email, isActive: true });
-            console.log("user --->: ", user);
 
             if (!user) {
                 req.flash('message', ['User not found', 'warning']);
