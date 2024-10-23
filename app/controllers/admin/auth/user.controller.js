@@ -100,7 +100,7 @@ class UserController {
 
             /** Now send the verification mail*/
             let mailOptions = {
-                from: 'no-reply@raju.com',
+                from: 'no-reply@sayantan.com',
                 to: user.email,
                 subject: 'Account Verification',
                 html: `
