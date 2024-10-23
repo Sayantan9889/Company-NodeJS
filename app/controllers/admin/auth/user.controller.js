@@ -17,6 +17,7 @@ class UserController {
             });
         } catch (error) {
             console.log("error: ", error);
+            req.flash('message', [error.message, 'danger'])
             res.redirect('/login');
         }
     }
@@ -31,7 +32,8 @@ class UserController {
             });
         } catch (error) {
             console.log("error: ", error);
-            res.redirect('/login');
+            req.flash('message', [error.message, 'danger'])
+            res.redirect('/registration');
         }
     }
 
@@ -44,22 +46,20 @@ class UserController {
         try {
             if (!(req.body.password === req.body.confirmPassword)) {
                 req.flash('message', ['Passwords do not match', 'warning']);
-                res.redirect('/registration');
-                return
+                return res.redirect('/registration');
             }
 
-            let user = await userModel.findOne({ email: req.body.email });
+            let user = await userModel.findOne({ email: req.body.email.toLowerCase() });
             if (user) {
                 req.flash('message', [`Email already exists!`, 'warning']);
-                res.redirect('/registration');
-                return
+                return res.redirect('/registration');
             }
 
             const body = {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
                 name: req.body.first_name + " " + req.body.last_name,
-                email: req.body.email,
+                email: req.body.email.toLowerCase(),
                 hint: {
                     question: req.body.hint.question,
                     answer: req.body.hint.answer,
@@ -83,8 +83,7 @@ class UserController {
             if (errors) {
                 console.log("Validation failed: ", errors);
                 req.flash('message', ['Invalid input', 'warning']);
-                res.redirect('/registration');
-                return
+                return res.redirect('/registration');
             }
 
             /** First save the user details */
@@ -97,14 +96,21 @@ class UserController {
                 token: crypto.randomBytes(16).toString('hex'),
             }).save();
 
+            let verification_mail = `http://${req.headers.host}/confirmation/${user.email}/${token.token}`;
+
             /** Now send the verification mail*/
-            var mailoptions = {
+            let mailOptions = {
                 from: 'no-reply@raju.com',
                 to: user.email,
                 subject: 'Account Verification',
-                text: 'Hello ' + body.name + ',\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + user.email + '\/' + token.token + '\n\nThank You!\n'
-            }
-            await sendEmailVerificationLink(req, res, mailoptions);
+                html: `
+                    <h1>Hello, ${body.name}</h1>
+                    <p>Please verify your account by clicking the link below:</p>
+                    <a href="${verification_mail}" style="color: blue;">${verification_mail}</a>
+                    <p>Thank you!</p>
+                `
+            };
+            await sendEmailVerificationLink(req, res, mailOptions);
 
 
             req.flash('message', [`Registration successful! ${body.name}, please check your email for verification.`, 'success']);
@@ -112,6 +118,7 @@ class UserController {
         } catch (error) {
             console.error(error);
             req.flash('message', [error.message, 'danger'])
+            res.redirect('/registration');
         }
     }
 
@@ -123,22 +130,19 @@ class UserController {
             const token = await tokenModel.findOne({ token: _token });
             if (!token) {
                 req.flash('message', ['Invalid or expired token', 'warning']);
-                res.redirect('/login');
-                return
+                return res.redirect('/login');
             }
 
             const user = await userModel.findById(token.user);
             console.log("user: ", user);
             if (!user) {
                 req.flash('message', ['User not found', 'warning']);
-                res.redirect('/login');
-                return
+                return res.redirect('/login');
             }
 
             if (user.isVerified) {
                 req.flash('message', ['Email already verified', 'warning']);
-                res.redirect('/login');
-                return
+                return res.redirect('/login');
             }
 
             const verifiedUser = await userModel.findOneAndUpdate(
@@ -152,6 +156,7 @@ class UserController {
         } catch (error) {
             console.error(error);
             req.flash('message', [error.message, 'danger'])
+            res.redirect('/login');
         }
     }
 
@@ -164,14 +169,12 @@ class UserController {
 
             if (!user) {
                 req.flash('message', ['User not found', 'warning']);
-                res.redirect('/login');
-                return
+                return res.redirect('/login');
             }
 
             if (!user.isVerified) {
                 req.flash('message', ['Email not verified yet', 'warning']);
-                res.redirect('/login');
-                return
+                return res.redirect('/login');
             }
 
             if (verifyPasswords(password, user.password)) {
@@ -194,6 +197,7 @@ class UserController {
         } catch (error) {
             console.log("error: ", error);
             req.flash('message', [error.message, 'danger']);
+            res.redirect('/login');
         }
     }
 
@@ -208,6 +212,7 @@ class UserController {
         } catch (error) {
             console.log("error: ", error);
             req.flash('message', [error.message, 'danger']);
+            res.redirect('/');
         }
     };
 }
