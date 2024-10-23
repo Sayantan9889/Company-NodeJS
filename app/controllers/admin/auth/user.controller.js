@@ -48,7 +48,7 @@ class UserController {
                 return
             }
 
-            let user = await userModel.findOne({ email: req.body.email});
+            let user = await userModel.findOne({ email: req.body.email });
             if (user) {
                 req.flash('message', [`Email already exists!`, 'warning']);
                 res.redirect('/registration');
@@ -80,13 +80,13 @@ class UserController {
             console.log("body: ", body);
             const { errors, value } = await userValidator.validate(body);
 
-            if(errors) {
+            if (errors) {
                 console.log("Validation failed: ", errors);
                 req.flash('message', ['Invalid input', 'warning']);
                 res.redirect('/registration');
                 return
             }
-            
+
             /** First save the user details */
             user = await new userModel(value).save();
             console.log("Created user: ", user);
@@ -96,7 +96,7 @@ class UserController {
                 user: user._id,
                 token: crypto.randomBytes(16).toString('hex'),
             }).save();
-            
+
             /** Now send the verification mail*/
             var mailoptions = {
                 from: 'no-reply@raju.com',
@@ -120,7 +120,7 @@ class UserController {
             const _token = req.params.token;
             const _mail = req.params.email;
 
-            const token = await tokenModel.findOne({token: _token});
+            const token = await tokenModel.findOne({ token: _token });
             if (!token) {
                 req.flash('message', ['Invalid or expired token', 'warning']);
                 res.redirect('/login');
@@ -135,7 +135,7 @@ class UserController {
                 return
             }
 
-            if(user.isVarified) {
+            if (user.isVerified) {
                 req.flash('message', ['Email already verified', 'warning']);
                 res.redirect('/login');
                 return
@@ -143,7 +143,7 @@ class UserController {
 
             const verifiedUser = await userModel.findOneAndUpdate(
                 { email: _mail },
-                { $set: { isVarified: true } },
+                { $set: { isVerified: true, isActive: true } },
                 { new: true }
             );
 
@@ -154,6 +154,63 @@ class UserController {
             req.flash('message', [error.message, 'danger'])
         }
     }
+
+
+    async loginUser(req, res) {
+        try {
+            const { email, password } = req.body;
+
+            const user = await userModel.findOne({ email: email, isActive: true });
+            console.log("user --->: ", user);
+
+            if (!user) {
+                req.flash('message', ['User not found', 'warning']);
+                res.redirect('/login');
+                return
+            }
+
+            if (!user.isVerified) {
+                req.flash('message', ['Email not verified yet', 'warning']);
+                res.redirect('/login');
+                return
+            }
+
+            if (verifyPasswords(password, user.password)) {
+                const token = await tokenGenerator({
+                    name: user.name,
+                    email: user.email,
+                    user_id: user._id,
+                    role: user.role
+                });
+                // res.cookie('x-access-token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
+                res.cookie('x-access-token', token, {
+                    httpOnly: true,  // prevents JavaScript from accessing the cookie
+                    maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
+                });
+                req.flash('message', [`Logged in successfully! ${user.name}`, 'success']);
+                res.redirect('/');
+            }
+
+
+        } catch (error) {
+            console.log("error: ", error);
+            req.flash('message', [error.message, 'danger']);
+        }
+    }
+
+    async logoutUser(req, res) {
+        try {
+            // Clear the JWT token cookie by setting its maxAge to 0
+            res.cookie('x-access-token', '', {
+                httpOnly: true,
+                expires: new Date(0), // set to an expired date to remove the cookie
+            });
+            res.redirect('/login');
+        } catch (error) {
+            console.log("error: ", error);
+            req.flash('message', [error.message, 'danger']);
+        }
+    };
 }
 
 module.exports = new UserController();

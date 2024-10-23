@@ -30,7 +30,7 @@ const userSchema = new Schema({
     },
     role: { type: String, enum: ['Admin', 'User'], default: 'User', index: true },
     isActive: { type: Boolean, default: false, index: true },
-    isVarified: { type: Boolean, default: false},
+    isVerified: { type: Boolean, default: false, index: true},
     created_at: { type: Date, default: Date.now, index: true },
     updated_at: { type: Date, default: Date.now, index: true }
 });

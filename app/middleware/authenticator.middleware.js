@@ -1,8 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 
 const isLoggedin = (req, res, next) => {
-    // const token = req.cookies.token || req.body.token || req.query.token || req.headers["token"];
-    const token = "";
+    const token = req.cookies['x-access-token'] || req.headers["x-access-token"] || req.body['x-access-token'] || req.query['x-access-token'];
 
     if (!token) {
         req.flash('message', [`Please login first!`, 'warning']);
@@ -15,7 +14,7 @@ const isLoggedin = (req, res, next) => {
             next();
         } catch (error) {
             req.user = null; // If token verification fails, treat as not logged in
-            res.clearCookie('token'); // Clear token cookie
+            res.clearCookie('x-access-token'); // Clear token cookie
             req.flash('message', [`Please login first!`, 'warning']);
             res.redirect('/login');
         }
