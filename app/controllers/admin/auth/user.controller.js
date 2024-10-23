@@ -78,7 +78,7 @@ class UserController {
             body.image = imagePath;
 
             console.log("body: ", body);
-            const { errors, value } = await userValidator.validate(body);
+            const { errors, value } = userValidator.validate(body);
 
             if (errors) {
                 console.log("Validation failed: ", errors);
