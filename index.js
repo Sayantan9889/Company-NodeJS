@@ -1,5 +1,6 @@
 // Initialize the Express application.  This is where you'll define your middleware, routes, and error handling.  It's also where you'll set up your EJS views and static files.  The app variable is the Express application instance.  You can use this app object to add middleware, routes, and error handling to your server.
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 // configuration for connect-flash
@@ -13,6 +14,9 @@ app.use(
     })
 );
 app.use(flash());
+app.use(cors({
+    origin: [/dedicateddevelopers.us/i]
+}))
 
 // Load environment variables from .env file
 const dotenv = require('dotenv');

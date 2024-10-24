@@ -6,18 +6,18 @@ const fs = require('fs');
 
 // Checking if the uploads folder exists or no, if not then create one
 const uploadDir = './uploads';
-// if (!fs.existsSync(uploadDir)) {
-//     fs.mkdirSync(uploadDir);
-// }
-fs.promises.access(uploadDir).catch((error) => {
-    fs.mkdir('./uploads', { recursive: true }, (err) => {
-        if (err) {
-            console.error('Error creating directory:', err);
-        } else {
-            console.log(`Directory '${uploadDir}' created.`);
-        }
-    });
-});
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+// fs.promises.access(uploadDir).catch((error) => {
+//     fs.mkdir('./uploads', { recursive: true }, (err) => {
+//         if (err) {
+//             console.error('Error creating directory:', err);
+//         } else {
+//             console.log(`Directory '${uploadDir}' created.`);
+//         }
+//     });
+// });
 
 
 const storage = multer.diskStorage({
