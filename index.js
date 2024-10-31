@@ -14,9 +14,7 @@ app.use(
     })
 );
 app.use(flash());
-app.use(cors({
-    origin: [/dedicateddevelopers.us/i]
-}))
+app.use(cors())
 
 // Load environment variables from .env file
 const dotenv = require('dotenv');
