@@ -10,12 +10,12 @@ class UserController {
     async registerUser(req, res) {
         try {
             if (!(req.body.password === req.body.confirmPassword)) {
-                return res.status(403).json({ message: 'Passwords do not match.', });
+                return res.status(403).json({ status: 403, message: 'Passwords do not match.', });
             }
 
             let user = await userModel.findOne({ email: req.body.email.toLowerCase() });
             if (user) {
-                return res.status(403).json({ message: 'Email already exists!', })
+                return res.status(403).json({ status: 403, message: 'Email already exists!', })
             }
 
             const body = {
@@ -44,7 +44,7 @@ class UserController {
 
             if (errors) {
                 console.log("Validation failed: ", errors);
-                return res.status(403).json({ message: 'Invalid input!', })
+                return res.status(403).json({ status: 403, message: 'Invalid input!', })
             }
 
             /** First save the user details */
@@ -73,12 +73,14 @@ class UserController {
             await sendEmailVerificationLink(req, res, mailOptions);
 
             return res.status(200).json({
+                status: 200,
                 message: `Registration successful! ${body.name}, please check your email for verification.`,
                 data: user
             })
         } catch (error) {
             console.error(error);
             return res.status(500).json({
+                status: 500,
                 message: error.message,
                 error
             })
@@ -92,18 +94,18 @@ class UserController {
 
             const token = await tokenModel.findOne({ token: _token });
             if (!token) {
-                return res.status(403).json({ message: 'Invalid or expired token!' })
+                return res.status(403).json({ status: 403, message: 'Invalid or expired token!' })
             }
 
             const user = await userModel.findById(token.user);
             console.log("user: ", user);
             if (!user) {
-                return res.status(403).json({ message: 'User not found!' })
+                return res.status(403).json({ status: 403, message: 'User not found!' })
             }
 
             if (user.isVerified) {
                 req.flash('message', ['', 'warning']);
-                return res.status(403).json({ message: 'Email already verified!' })
+                return res.status(403).json({ status: 403, message: 'Email already verified!' })
             }
 
             const verifiedUser = await userModel.findOneAndUpdate(
@@ -112,11 +114,12 @@ class UserController {
                 { new: true }
             );
 
-            return res.status(200).json({ message: `Successfully verified! ${verifiedUser?.name}, You can log in now.` })
+            return res.status(200).json({ status: 200, message: `Successfully verified! ${verifiedUser?.name}, You can log in now.` })
         } catch (error) {
             console.error(error);
 
             return res.status(500).json({
+                status: 500,
                 message: error.message,
                 error
             })
@@ -131,11 +134,11 @@ class UserController {
             const user = await userModel.findOne({ email: email, isActive: true });
 
             if (!user) {
-                return res.status(403).json({ message: 'User not found!' })
+                return res.status(403).json({ status: 403, message: 'User not found!' })
             }
 
             if (!user.isVerified) {
-                return res.status(403).json({ message: 'Email not verified yet!' })
+                return res.status(403).json({ status: 403, message: 'Email not verified yet!' })
             }
 
             if (verifyPasswords(password, user.password)) {
@@ -151,6 +154,7 @@ class UserController {
                     maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
                 });
                 return res.status(200).json({
+                    status: 200,
                     message: `Logged in successfully!`,
                     data: user
                 })
@@ -160,6 +164,7 @@ class UserController {
         } catch (error) {
             console.log("error: ", error);
             return res.status(500).json({
+                status: 500,
                 message: error.message,
                 error
             })
