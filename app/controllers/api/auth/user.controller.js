@@ -131,7 +131,8 @@ class UserController {
         try {
             const { email, password } = req.body;
 
-            const user = await userModel.findOne({ email: email, isActive: true });
+            const user = await userModel.findOne({ email: email, isActive: true }).select('-__v -hint -isActive -updated_at');;
+            console.log("user: ", user);
 
             if (!user) {
                 return res.status(403).json({ status: 403, message: 'User not found!' })
@@ -141,22 +142,18 @@ class UserController {
                 return res.status(403).json({ status: 403, message: 'Email not verified yet!' })
             }
 
-            if (verifyPasswords(password, user.password)) {
+            if (await verifyPasswords(password, user.password)) {
                 const token = await tokenGenerator({
                     name: user.name,
                     email: user.email,
                     user_id: user._id,
                     role: user.role
                 });
-                // res.cookie('auth-token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
-                res.cookie('auth-token', token, {
-                    httpOnly: true,  // prevents JavaScript from accessing the cookie
-                    maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
-                });
+
                 return res.status(200).json({
                     status: 200,
                     message: `Logged in successfully!`,
-                    data: user
+                    data: { ...user._doc, token }
                 })
             }
 
