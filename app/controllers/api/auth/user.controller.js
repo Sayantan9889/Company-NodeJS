@@ -145,8 +145,8 @@ class UserController {
                     user_id: user._id,
                     role: user.role
                 });
-                // res.cookie('x-access-token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
-                res.cookie('x-access-token', token, {
+                // res.cookie('auth-token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
+                res.cookie('auth-token', token, {
                     httpOnly: true,  // prevents JavaScript from accessing the cookie
                     maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
                 });
