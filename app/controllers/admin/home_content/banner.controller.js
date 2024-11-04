@@ -65,7 +65,7 @@ class bannerController {
         try {
             const basePath = `${req.protocol}://${req.get('host')}/uploads`;
             const file = req.file;
-            console.log("file: ", file);
+            // console.log("file: ", file);
             let imagePath = "";
 
             if (file) {
@@ -178,7 +178,7 @@ class bannerController {
                 });
             }
             await bannerModel.findByIdAndDelete(id);
-            console.log("Banner deleted successfully!");
+            // console.log("Banner deleted successfully!");
             req.flash('message', [`Banner deleted successfully!`, 'success']);
             res.redirect('/home/banner');
 

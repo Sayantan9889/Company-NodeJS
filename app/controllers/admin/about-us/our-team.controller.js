@@ -53,7 +53,7 @@ class ourTeamController {
     async ourTeamEdit(req, res) {
         try {
             const id = req.params.id || res.body.id;
-            console.log("id: ", id, req.body);
+            // console.log("id: ", id, req.body);
             const { error, value } = ourTeamValidator.validate(req.body);
             if (error) {
                 console.log("Validation failed: ", error);
