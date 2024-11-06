@@ -56,22 +56,18 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 const dashboardRouter = require('./app/router/admin/dashboard.router');
 const adminHomeContentdRouter = require('./app/router/admin/home-content.router');
 const adminAboutUsRouter = require('./app/router/admin/about.router');
-const adminOurTeamRouter = require('./app/router/admin/our-team.router');
 const adminAuthRouter = require('./app/router/admin/auth.router');
 app.use(dashboardRouter);
 app.use(adminHomeContentdRouter);
 app.use(adminAboutUsRouter);
-app.use(adminOurTeamRouter);
 app.use(adminAuthRouter);
 
 // Routers for api only
 const homeContentdRouter = require('./app/router/api/home-content.router');
 const aboutUsRouter = require('./app/router/api/about-us.router');
-const ourTeamRouter = require('./app/router/api/our-team.router');
 const authRouter = require('./app/router/api/auth.router');
 app.use('/api', homeContentdRouter);
 app.use('/api', aboutUsRouter);
-app.use('/api', ourTeamRouter);
 app.use('/api', authRouter);
 
 

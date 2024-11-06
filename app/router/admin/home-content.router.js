@@ -1,7 +1,8 @@
 const express = require('express');
-const bannerController = require('../../controllers/admin/home_content/banner.controller');
 const upload = require('../../helper/upload-image.helper');
+const bannerController = require('../../controllers/admin/home_content/banner.controller');
 const serviceController = require('../../controllers/admin/home_content/service.controller');
+const testimonialController = require('../../controllers/admin/home_content/testimonial.controller');
 
 const router = express.Router();
 
@@ -29,7 +30,18 @@ router.get('/home/service/active-deactive/:id', serviceController.activeDeactive
 router.delete('/home/service/delete/:id', serviceController.deleteService);
 
 
-/* +=========== banner ===========+ */
+
+
+
+/* +=========== Testimonial ===========+ */
+router.get('/home/testimonials', testimonialController.testimonyListPage);
+router.get('/home/testimony/add', testimonialController.addTestimonyPage);
+router.get('/home/testimony/update/:id', testimonialController.editTestimonyPage);
+
+router.post('/home/testimony/create', upload.single('image'), testimonialController.addTestimony);
+router.post('/home/testimony/edit/:id', upload.single('image'), testimonialController.editTestimony);
+router.get('/home/testimony/active-deactive/:id', testimonialController.activeDeactivateTestimony);
+router.delete('/home/testimony/delete/:id', testimonialController.deleteTestimony);
 
 
 

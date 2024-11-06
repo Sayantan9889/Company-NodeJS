@@ -17,6 +17,7 @@ class bannerController {
             });
         } catch (error) {
             console.log("error: ", error);
+            req.flash('message', ['Something went wrong', 'danger']);
             res.redirect('/');
         }
     }
@@ -32,6 +33,8 @@ class bannerController {
             });
         } catch (error) {
             console.log("error: ", error);
+            req.flash('message', ['Something went wrong', 'danger']);
+            res.redirect('/home/banner');
         }
     }
 
@@ -49,10 +52,13 @@ class bannerController {
                 });
             } else {
                 console.log('couldn\'t find the banner or it is deactive.');
+                req.flash('message', ['couldn\'t find the banner or it is deactive.', 'warning']);
                 res.redirect('/home/banner');
             }
         } catch (error) {
             console.log("error: ", error);
+            req.flash('message', ['Something went wrong', 'danger']);
+            res.redirect('/home/banner');
         }
     }
 

@@ -1,8 +1,6 @@
 const { userModel, userValidator } = require('../../../models/auth/user.model');
 const tokenModel = require('../../../models/auth/token.model');
 const { hashPassword, verifyPasswords, tokenGenerator, transporter, sendEmailVerificationLink } = require('../../../helper/auth.helper');
-const fs = require('fs');
-const path = require('path');
 const crypto = require("crypto");
 
 class UserController {
@@ -70,10 +68,10 @@ class UserController {
             body.password = hashedPassword;
 
             const file = req.file;
-            const basePath = `${req.protocol}://${req.get('host')}/uploads`;
+            const basePath = `${req.protocol}://${req.get('host')}`;
             let imagePath = `${basePath}/assets/no-image.png`;
             if (file) {
-                imagePath = `${basePath}/${file.filename}`;
+                imagePath = `${basePath}/uploads/${file.filename}`;
             }
             body.image = imagePath;
 
