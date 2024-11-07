@@ -41,7 +41,7 @@
                         <p>
                             Home Content
                             <i class="right fas fa-angle-left"></i>
-                            <span class="badge badge-info right">2</span>
+                            <span class="badge badge-info right">3</span>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -55,6 +55,12 @@
                             <a href="/home/service" class="nav-link <%= data.url ? (data.url.includes('home/service') ? 'active' : '') : '' %>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Services</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/home/testimonials" class="nav-link <%= data.url ? (data.url.includes('home/testimon') ? 'active' : '') : '' %>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Testimonials</p>
                             </a>
                         </li>
                     </ul>

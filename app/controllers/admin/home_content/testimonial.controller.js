@@ -6,7 +6,7 @@ class testimonialController {
     async testimonyListPage(req, res) {
         try {
             const testimonials = await testimonialModel.find();
-            res.render('home_content/testimonial/add', {
+            res.render('home_content/testimonial/list', {
                 title: 'Testimonials',
                 data: {
                     length: testimonials.length,
@@ -41,7 +41,7 @@ class testimonialController {
     async editTestimonyPage(req, res) {
         try {
             const testimony = await testimonialModel.findById(req.params.id);
-            res.render('home_content/testimonial/add', {
+            res.render('home_content/testimonial/edit', {
                 title: 'Add Testimonial',
                 data: {
                     url: req.url,

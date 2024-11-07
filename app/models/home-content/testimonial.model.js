@@ -8,6 +8,7 @@ const testimonialValidator = joi.object({
     image: joi.string().required(),
     designation: joi.string().required(),
     content: joi.string().required(),
+    updated_at: joi.date()
 });
 
 const testimonialSchema = new Schema({

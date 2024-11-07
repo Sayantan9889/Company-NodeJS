@@ -69,15 +69,18 @@
             </thead>
             <tbody>
 
-              <% data.bannerList.forEach((banner, index)=> {%>
+              <% data.testimonials.forEach((testimony, index)=> {%>
               <tr>
                 <th scope="row">
                   <%= index+1 %>
                 </th>
-                <td style="padding-bottom: 0.36rem;"><img style="height: 50px; width: 50px; border-radius: 50%;" src="<%= banner.image %>" alt="">
+                <td style="padding-bottom: 0.36rem;"><img style="height: 50px; width: 50px; border-radius: 50%;" src="<%= testimony.image %>" alt="">
                 </td>
                 <td style="padding-bottom: 0.36rem;">
-                  <%= banner.title %>
+                  <%= testimony.name %>
+                </td>
+                <td style="padding-bottom: 0.36rem;">
+                  <%= testimony.designation %>
                 </td>
                 <td style=" padding-bottom: 0.36rem;
                         overflow: hidden;
@@ -86,14 +89,14 @@
                         line-clamp: 2;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;">
-                  <%= banner.content %>
+                  <%= testimony.content %>
                 </td>
-                <td style="padding-bottom: 0.36rem;"><a href="/home/banner/active-deactive/<%=banner._id%>" class="btn <%= banner.isActive ? 'btn-success' : 'btn-warning' %>">
-                    <%= banner.isActive ? 'Active' : 'Deactive' %>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/testimony/active-deactive/<%=testimony._id%>" class="btn <%= testimony.isActive ? 'btn-success' : 'btn-warning' %>">
+                    <%= testimony.isActive ? 'Active' : 'Deactive' %>
                   </a></td>
-                <td style="padding-bottom: 0.36rem;"><a href="/home/banner/update/<%=banner._id%>" class="btn btn-primary">Edit</a>
+                <td style="padding-bottom: 0.36rem;"><a href="/home/testimony/update/<%=testimony._id%>" class="btn btn-primary">Edit</a>
                 </td>
-                <td style="padding-bottom: 0.36rem;"><a class="btn btn-danger" onclick="deleteBanner('<%= banner._id %>')"> Delete</a></td>
+                <td style="padding-bottom: 0.36rem;"><a class="btn btn-danger" onclick="deleteTestimony('<%= testimony._id %>')"> Delete</a></td>
               </tr>
               <% }) %>
 
@@ -115,9 +118,9 @@
 
 
   <script>
-    function deleteBanner(id) {
-      if (confirm('Are you sure you want to delete this banner?')) {
-        fetch(`/home/banner/delete/${id}`, {
+    function deleteTestimony(id) {
+      if (confirm('Are you sure you want to delete this testimony?')) {
+        fetch(`/home/testimony/delete/${id}`, {
           method: 'DELETE'
         }).then(response => {
           location.reload(); // Reload to reflect changes
