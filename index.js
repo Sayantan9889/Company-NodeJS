@@ -57,10 +57,12 @@ const dashboardRouter = require('./app/router/admin/dashboard.router');
 const adminHomeContentdRouter = require('./app/router/admin/home-content.router');
 const adminAboutUsRouter = require('./app/router/admin/about.router');
 const adminAuthRouter = require('./app/router/admin/auth.router');
+const contactRouter = require('./app/router/admin/contact.router');
 app.use(dashboardRouter);
 app.use(adminHomeContentdRouter);
 app.use(adminAboutUsRouter);
 app.use(adminAuthRouter);
+app.use(contactRouter);
 
 // Routers for api only
 const homeContentdRouter = require('./app/router/api/home-content.router');
