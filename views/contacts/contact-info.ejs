@@ -1,4 +1,26 @@
 <%- include('../layouts/head.ejs') %>
+<style>
+  /* Align buttons to the right side of the label */
+  .form-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .float-right {
+    margin-left: 10px;
+    /* Optional: Adds some space between the label and the button */
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    /* Smaller button size */
+  }
+
+  .contact-info-remove-btn {
+    margin-left: 10px;
+  }
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
@@ -73,13 +95,46 @@
               <input type="text" class="form-control" value="<%= data.contactInfo.lat %>" disabled>
             </div>
 
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Email</label>
-              <input type="text" class="form-control" id="contactInfoEmail" name="email" value="<%= data.contactInfo.email %>">
+            <!-- Dynamic Email Fields -->
+            <div class="mb-3" id="contactInfoEmails">
+              <label for="contactInfoEmail" class="form-label">Emails
+                <!-- Align button to the right -->
+                <button type="button" class="btn btn-success btn-sm float-right contact-info-add-btn" id="addEmailBtn">Add Email</button>
+              </label>
+              <div id="emailFields">
+                <div class="input-group mb-2">
+                  <input type="email" class="form-control contactInfoEmail" name="emails[0]" value="<%= data.contactInfo.emails?.length ? data.contactInfo.emails[0] : '' %>" required>
+                </div>
+                <% data.contactInfo.emails?.forEach(function(email, index) { %>
+                  <% if (index > 0) { %>
+                    <div class="input-group mb-2">
+                      <input type="email" class="form-control contactInfoEmail" name="emails[<%= index %>]" value="<%= email %>" required>
+                      <button type="button" class="btn btn-danger ms-3 remove-email-btn contact-info-remove-btn">Remove</button>
+                    </div>
+                  <% } %>
+                <% }) %>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Phone</label>
-              <input type="text" class="form-control" id="contactInfoPhone" name="phone" value="<%= data.contactInfo.phone %>">
+
+            <!-- Dynamic Phone Fields -->
+            <div class="mb-3" id="contactInfoPhones">
+              <label for="contactInfoPhone" class="form-label">Phones
+                <!-- Align button to the right -->
+                <button type="button" class="btn btn-success btn-sm float-right contact-info-add-btn" id="addPhoneBtn">Add Phone</button>
+              </label>
+              <div id="phoneFields">
+                <div class="input-group mb-2">
+                  <input type="text" class="form-control contactInfoPhone" name="phones[0]" value="<%= data.contactInfo.phones?.length ? data.contactInfo.phones[0] : '' %>" required>
+                </div>
+                <% data.contactInfo.phones?.forEach(function(phone, index) { %>
+                  <% if (index > 0) { %>
+                    <div class="input-group mb-2">
+                      <input type="text" class="form-control contactInfoPhone" name="phones[<%= index %>]" value="<%= phone %>" required>
+                      <button type="button" class="btn btn-danger ms-3 remove-phone-btn contact-info-remove-btn">Remove</button>
+                    </div>
+                  <% } %>
+                <% }) %>
+              </div>
             </div>
 
             <button type="submit" class="btn btn-primary mb-5" id="updateContactInfoBtn">Update</button>
@@ -101,33 +156,74 @@
 
 
   <script>
-    //   +======= for disable / enable input fields ========+
+    // Disable/enable input fields
     const editBtn = $('#editContatactInfoBtn');
     const address = $('#contactInfoAddress');
-    const email = $('#contactInfoEmail');
-    const phone = $('#contactInfoPhone');
+    const emails = $('.contactInfoEmail');
+    const phone = $('.contactInfoPhone');
     const updateBtn = $('#updateContactInfoBtn');
     const longitude = $('#contactInfoLongitude');
     const latitude = $('#contactInfoLatitude');
     $(document).ready(function() {
       address.attr('disabled', true);
-      email.attr('disabled', true);
+      emails.attr('disabled', true);
       phone.attr('disabled', true);
       updateBtn.hide();
+      $('.contact-info-add-btn').hide();
+      $('.contact-info-remove-btn').hide();
     });
     editBtn.click(() => {
       address.removeAttr('disabled');
-      email.removeAttr('disabled');
+      emails.removeAttr('disabled');
       phone.removeAttr('disabled');
       editBtn.fadeOut();
       updateBtn.fadeIn();
       longitude.hide();
       latitude.hide();
-    })
-    // updateBtn.click(() => { updateBtn.attr('disabled', true) });
+      $('.contact-info-add-btn').show();
+      $('.contact-info-remove-btn').show();
+    });
 
 
-    //   +======= for connect-flash message ========+
+
+    // Add/remove email and phone fields dynamically
+    let emailIndex = 1;
+    let phoneIndex = 1;
+    $(document).ready(function() {
+
+      $('#addEmailBtn').click(function() {
+        $('#emailFields').append(`
+          <div class="input-group mb-2">
+            <input type="email" class="form-control" name="emails[${emailIndex}]" required>
+            <button type="button" class="btn btn-danger remove-email-btn contact-info-remove-btn">Remove</button>
+          </div>
+        `);
+        emailIndex++;
+      });
+
+      $(document).on('click', '.remove-email-btn', function() {
+        $(this).parent().remove();
+      });
+
+      $('#addPhoneBtn').click(function() {
+        $('#phoneFields').append(`
+          <div class="input-group mb-2">
+            <input type="text" class="form-control" name="phones[${phoneIndex}]" required>
+            <button type="button" class="btn btn-danger remove-phone-btn contact-info-remove-btn">Remove</button>
+          </div>
+        `);
+        phoneIndex++;
+      });
+
+      $(document).on('click', '.remove-phone-btn', function() {
+        $(this).parent().remove();
+      });
+    });
+
+
+
+
+    // For flash message
     function vanish() {
       $('#contactInfoAlert').fadeOut('fast');
     }

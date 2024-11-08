@@ -1,10 +1,12 @@
 const { contactInfoValidators, contactInfoModel } = require('../../../models/contacts/contact-info.modal');
 const getCoordinates = require('../../../helper/geoCoding.helper');
+const { inspect } = require('node:util');
 
 class ContactInfoController {
     async contactInfoPage(req, res) {
         try {
             const contactInfo = await contactInfoModel.find();
+            console.log("contactInfo: ", contactInfo);
             res.render('contacts/contact-info', {
                 title: 'Contact Info',
                 data: {
@@ -16,37 +18,44 @@ class ContactInfoController {
         } catch (error) {
             console.error("Error while fetching contact info: ", error);
             req.flash('message', ['Failed to fetch contact info!', 'error']);
-            res.redirect('/');
+            return res.redirect('/');
         }
     }
 
+    /**
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res 
+     */
     async changeContactInfo(req, res) {
         try {
+            
+            // console.log(inspect(req.body, true, null, true));
             const existingContactInfo = await contactInfoModel.find();
 
             if (!existingContactInfo.length) {
                 const body = req.body
-
+                
                 const latLng = await getCoordinates(body.address);
                 body.lat = latLng.lat;
                 body.lng = latLng.lng;
-
+                
                 const { error } = contactInfoValidators.validate(body);
                 if (error) {
                     console.error("Validation failed: ", error);
                     req.flash('message', [`Validation failed!`, 'warning']);
-                    res.redirect('/contacts/contact-info');
+                    return res.redirect('/contacts/contact-info');
                 }
-
+                
+                console.log("body 1: ", body);
                 await contactInfoModel.create(body);
                 req.flash('message', [`Contact info created successfully!`, 'success']);
-                res.redirect('/contacts/contact-info');
+                return res.redirect('/contacts/contact-info');
 
             } else {
                 const body = {
                     address: req.body.address || existingContactInfo[0].address,
-                    email: req.body.email || existingContactInfo[0].email,
-                    phone: req.body.phone || existingContactInfo[0].phone,
+                    emails: req.body.emails || existingContactInfo[0].emails,
+                    phones: req.body.phones || existingContactInfo[0].phones,
                 }
 
                 if (req.body.address) {
@@ -57,24 +66,25 @@ class ContactInfoController {
                     body.lat = existingContactInfo[0].lat;
                     body.lng = existingContactInfo[0].lng;
                 }
+                console.log("body 2: ", body);
 
                 const { error } = contactInfoValidators.validate(body);
                 if (error) {
                     console.error("Validation failed: ", error);
                     req.flash('message', [`Validation failed!`, 'warning']);
-                    res.redirect('/contacts/contact-info');
+                    return res.redirect('/contacts/contact-info');
                 }
 
                 await contactInfoModel.findByIdAndUpdate(existingContactInfo[0]._id, body);
 
                 req.flash('message', [`Contact info updated successfully!`, 'success']);
-                res.redirect('/contacts/contact-info');
+                return res.redirect('/contacts/contact-info');
             }
 
         } catch (error) {
             console.error("error: ", error);
             req.flash('message', [`Something went wrong!`, 'danger']);
-            res.redirect('/');
+            return res.redirect('/contacts/contact-info');
         }
     }
 }
