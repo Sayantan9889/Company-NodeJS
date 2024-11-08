@@ -27,27 +27,30 @@ class ContactInfoController {
             if (!existingContactInfo.length) {
                 const body = req.body
 
-                const latLng = getCoordinates(body.address);
+                const latLng = await getCoordinates(body.address);
                 body.lat = latLng.lat;
                 body.lng = latLng.lng;
 
-                const { error } = await contactInfoValidators.validate(body);
+                const { error } = contactInfoValidators.validate(body);
                 if (error) {
                     console.error("Validation failed: ", error);
                     req.flash('message', [`Validation failed!`, 'warning']);
-                    res.redirect('/');
+                    res.redirect('/contacts/contact-info');
                 }
 
-                const contactInfo = await contactInfoModel.create(body);
+                await contactInfoModel.create(body);
+                req.flash('message', [`Contact info created successfully!`, 'success']);
+                res.redirect('/contacts/contact-info');
+
             } else {
                 const body = {
                     address: req.body.address || existingContactInfo[0].address,
-                    email: req.body.address || existingContactInfo[0].address,
-                    phone: req.body.address || existingContactInfo[0].address,
+                    email: req.body.email || existingContactInfo[0].email,
+                    phone: req.body.phone || existingContactInfo[0].phone,
                 }
 
                 if (req.body.address) {
-                    const latLng = getCoordinates(body.address);
+                    const latLng = await getCoordinates(body.address);
                     body.lat = latLng.lat;
                     body.lng = latLng.lng;
                 } else {
@@ -55,14 +58,17 @@ class ContactInfoController {
                     body.lng = existingContactInfo[0].lng;
                 }
 
-                const { error } = await contactInfoValidators.validate(body);
+                const { error } = contactInfoValidators.validate(body);
                 if (error) {
                     console.error("Validation failed: ", error);
                     req.flash('message', [`Validation failed!`, 'warning']);
-                    res.redirect('/');
+                    res.redirect('/contacts/contact-info');
                 }
 
-                const contactInfo = await contactInfoModel.updateOne({}, body);
+                await contactInfoModel.findByIdAndUpdate(existingContactInfo[0]._id, body);
+
+                req.flash('message', [`Contact info updated successfully!`, 'success']);
+                res.redirect('/contacts/contact-info');
             }
 
         } catch (error) {

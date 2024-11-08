@@ -1,6 +1,5 @@
 async function getCoordinates(address) {
     const opencageKey = process.env.OPENCAGE_API_KEY;
-    console.log("opencageKey: ", opencageKey);
 
     try {
         const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${opencageKey}`;
@@ -16,7 +15,7 @@ async function getCoordinates(address) {
         // Check for OpenCage success status
         if (data.status.code === 200 && data.results.length > 0) {
             const location = data.results[0].geometry;
-            console.log("location: ", location);
+            // console.log("location: ", location);
             return { lat: location.lat, lng: location.lng };
         } else {
             throw new Error(`Geocoding failed: ${data.status.message}`);

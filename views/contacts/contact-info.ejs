@@ -1,0 +1,143 @@
+<%- include('../layouts/head.ejs') %>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Preloader -->
+    <%- include('../layouts/loader.ejs') %>
+    <!-- /.Preloader -->
+
+    <!-- Navbar -->
+    <%- include('../layouts/navbar.ejs') %>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <%- include('../layouts/sidebar.ejs') %>
+    <!-- /.Main Sidebar Container -->
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+      <!-- Flash message -->
+      <% if (messages.length !=0) { %>
+      <div class="position-absolute" style="width: calc(100% - 250px);">
+        <div class="alert alert-<%=messages[1]%> alert-dismissible fade show float-right w-50" style="z-index: 999;" id="contactInfoAlert" role="alert">
+          <%= messages[0] %>
+          <button type="button" class="close" id="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <% } %>
+      <!-- Flash message end -->
+
+      <!-- Content Header (breadcrump) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Contact Info</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a>Contact Info</a></li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+
+          <a class="btn btn-info" id="editContatactInfoBtn">Edit</a>
+
+          <form action="/contacts/contact-info/change" method="post" enctype="application/x-www-form-urlencoded">
+            <h3 style="text-align: center; text-decoration: underline;">Contact Info
+            </h3>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Address</label>
+              <input type="text" class="form-control" id="contactInfoAddress" name="address" value="<%= data.contactInfo.address %>">
+            </div>
+
+            <div class="mb-3" id="contactInfoLongitude">
+              <label for="exampleFormControlInput1" class="form-label">Longitude</label>
+              <input type="text" class="form-control" value="<%= data.contactInfo.lng %>" disabled>
+            </div>
+            <div class="mb-3" id="contactInfoLatitude">
+              <label for="exampleFormControlInput1" class="form-label">Latitude</label>
+              <input type="text" class="form-control" value="<%= data.contactInfo.lat %>" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Email</label>
+              <input type="text" class="form-control" id="contactInfoEmail" name="email" value="<%= data.contactInfo.email %>">
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Phone</label>
+              <input type="text" class="form-control" id="contactInfoPhone" name="phone" value="<%= data.contactInfo.phone %>">
+            </div>
+
+            <button type="submit" class="btn btn-primary mb-5" id="updateContactInfoBtn">Update</button>
+
+          </form>
+
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /. Main content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- footer -->
+    <%- include('../layouts/footer.ejs') %>
+    <!-- /.footer -->
+
+  </div>
+  <!-- ./wrapper -->
+
+
+  <script>
+    //   +======= for disable / enable input fields ========+
+    const editBtn = $('#editContatactInfoBtn');
+    const address = $('#contactInfoAddress');
+    const email = $('#contactInfoEmail');
+    const phone = $('#contactInfoPhone');
+    const updateBtn = $('#updateContactInfoBtn');
+    const longitude = $('#contactInfoLongitude');
+    const latitude = $('#contactInfoLatitude');
+    $(document).ready(function() {
+      address.attr('disabled', true);
+      email.attr('disabled', true);
+      phone.attr('disabled', true);
+      updateBtn.hide();
+    });
+    editBtn.click(() => {
+      address.removeAttr('disabled');
+      email.removeAttr('disabled');
+      phone.removeAttr('disabled');
+      editBtn.fadeOut();
+      updateBtn.fadeIn();
+      longitude.hide();
+      latitude.hide();
+    })
+    // updateBtn.click(() => { updateBtn.attr('disabled', true) });
+
+
+    //   +======= for connect-flash message ========+
+    function vanish() {
+      $('#contactInfoAlert').fadeOut('fast');
+    }
+    $("#close").click(vanish)
+    $(document).ready(function() {
+      setTimeout(function() {
+        vanish()
+      }, 3000);
+    });
+  </script>
+</body>
+
+</html>

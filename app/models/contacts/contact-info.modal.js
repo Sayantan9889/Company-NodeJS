@@ -5,8 +5,8 @@ const joi = require('joi');
 
 const contactInfoValidators = joi.object({
     address: joi.string().required(),
-    lat: joi.string().required(),
-    lng: joi.string().required(),
+    lat: joi.number().required(),
+    lng: joi.number().required(),
     email: joi.string().required(),
     phone: joi.string().required(),
 });
