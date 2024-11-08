@@ -1,3 +1,10 @@
+<style>
+    .profileImg img {
+        width: 43px !important;
+        height: 43px !important;
+    }
+</style>
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
@@ -10,11 +17,11 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <div class="image profileImg">
+                <img src="<%= data.user.image %>" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Sayantan Singha</a>
+                <a class="d-block"><%= data.user.name %> (<%= data.user.role %>)</a>
             </div>
         </div>
 

@@ -9,7 +9,8 @@ class aboutUsHomeController {
                 data: {
                     length: aboutUs?.length,
                     aboutUs: aboutUs[0],
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 }
             });
         } catch (error) {
@@ -26,7 +27,8 @@ class aboutUsHomeController {
                 title: 'About Us - edit',
                 data: {
                     aboutUs,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 }
             });
         } catch (error) {

@@ -10,7 +10,8 @@ class contactRequestController {
                 data: {
                     length: contactRequests.length,
                     contactRequests: contactRequests,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });

@@ -2,21 +2,22 @@ const express = require('express');
 const upload = require('../../helper/upload-image.helper');
 const aboutUsController = require('../../controllers/admin/about-us/about.controller');
 const ourTeamController = require('../../controllers/admin/about-us/our-team.controller');
+const authenticator = require('../../middleware/authenticator.middleware');
 
 const router = express.Router();
 
 
 /* +=========== About us ===========+ */
-router.get('/about-us/about', aboutUsController.aboutUsList);
-router.get('/about-us/about/update/:id', aboutUsController.aboutUsUpdate);
+router.get('/about-us/about', authenticator.isLoggedin, aboutUsController.aboutUsList);
+router.get('/about-us/about/update/:id', authenticator.isLoggedin, aboutUsController.aboutUsUpdate);
 
 router.post('/about-us/about/edit/:id', aboutUsController.editAboutUs);
 
 
 
 /* +=========== Our Team ===========+ */
-router.get('/about-us/our-team', ourTeamController.ourTeamList);
-router.get('/about-us/our-team/update/:id', ourTeamController.ourTeamUpdate);
+router.get('/about-us/our-team', authenticator.isLoggedin, ourTeamController.ourTeamList);
+router.get('/about-us/our-team/update/:id', authenticator.isLoggedin, ourTeamController.ourTeamUpdate);
 
 router.post('/about-us/our-team/edit/:id', ourTeamController.ourTeamEdit);
 

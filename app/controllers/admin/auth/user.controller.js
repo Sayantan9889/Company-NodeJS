@@ -180,7 +180,8 @@ class UserController {
                     name: user.name,
                     email: user.email,
                     user_id: user._id,
-                    role: user.role
+                    role: user.role,
+                    image: user.image
                 });
                 // res.cookie('auth-token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
                 res.cookie('auth-token', token, {

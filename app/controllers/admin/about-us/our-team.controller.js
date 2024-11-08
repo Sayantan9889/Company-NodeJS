@@ -17,7 +17,8 @@ class ourTeamController {
                     length: ourTeam?.length,
                     ourTeam: ourTeam,
                     memberList,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });
@@ -39,7 +40,8 @@ class ourTeamController {
                 data: {
                     length: ourTeam?.length,
                     ourTeam: ourTeam,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });
@@ -81,7 +83,8 @@ class ourTeamController {
             res.render('about-us/our-team/team-member/add', {
                 title: 'Team Member - Add',
                 data: {
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 }
             });
         } catch (error) {
@@ -99,7 +102,8 @@ class ourTeamController {
                 title: 'Team Member - Edit',
                 data: {
                     url: req.url,
-                    member
+                    member,
+                    user: req.user
                 }
             });
         } catch (error) {

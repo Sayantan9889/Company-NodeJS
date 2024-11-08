@@ -6,12 +6,12 @@ class ContactInfoController {
     async contactInfoPage(req, res) {
         try {
             const contactInfo = await contactInfoModel.find();
-            console.log("contactInfo: ", contactInfo);
             res.render('contacts/contact-info', {
                 title: 'Contact Info',
                 data: {
                     contactInfo: contactInfo[0] || {},
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });

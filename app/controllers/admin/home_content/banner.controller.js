@@ -11,7 +11,8 @@ class bannerController {
                 data: {
                     length: banners?.length,
                     bannerList: banners,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });
@@ -27,7 +28,8 @@ class bannerController {
             res.render('home_content/banner/add', {
                 title: 'Banner-add',
                 data: {
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });
@@ -47,7 +49,8 @@ class bannerController {
                     title: 'Banner-edit',
                     data: {
                         banner,
-                        url: req.url
+                        url: req.url,
+                        user: req.user
                     }
                 });
             } else {

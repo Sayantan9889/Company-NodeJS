@@ -11,7 +11,8 @@ class testimonialController {
                 data: {
                     length: testimonials.length,
                     testimonials: testimonials,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });
@@ -27,7 +28,8 @@ class testimonialController {
             res.render('home_content/testimonial/add', {
                 title: 'Add Testimonial',
                 data: {
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });
@@ -45,7 +47,8 @@ class testimonialController {
                 title: 'Add Testimonial',
                 data: {
                     url: req.url,
-                    testimony
+                    testimony,
+                    user: req.user
                 },
                 messages: req.flash('message')
             });

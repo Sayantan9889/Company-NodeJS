@@ -12,7 +12,8 @@ class servicesController {
                 data: {
                     length: services?.length,
                     serviceList: services,
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 }
             })
         } catch (error) {
@@ -25,7 +26,8 @@ class servicesController {
             res.render('home_content/provided-service/add', {
                 title: 'Services',
                 data: {
-                    url: req.url
+                    url: req.url,
+                    user: req.user
                 }
             })
         } catch (error) {
@@ -42,7 +44,8 @@ class servicesController {
                     title: 'Services',
                     data: {
                         service,
-                        url: req.url
+                        url: req.url,
+                        user: req.user
                     }
                 })
             } else {
