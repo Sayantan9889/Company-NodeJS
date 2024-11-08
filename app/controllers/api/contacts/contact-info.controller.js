@@ -3,7 +3,7 @@ const { contactInfoModel } = require('../../../models/contacts/contact-info.moda
 class ContactInfoController {
     async fetchContactInfo(req, res) {
         try {
-            const contactInfo = await contactInfoModel.find();
+            const contactInfo = await contactInfoModel.find().select('-__v');
             if (!contactInfo.length) {
                 return res.status(404).json({
                     status: 404,
