@@ -24,8 +24,8 @@ const storage = multer.diskStorage({
     destination: (req, res, cb) => {
         cb(null, uploadDir);
     },
-    filename: (req, res, cb) => {
-        const ext = path.extname(res.originalname);
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
         const uniqueName = `${uuidv4()}${ext}`;
         cb(null, uniqueName);
     }
